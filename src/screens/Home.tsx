@@ -3,6 +3,7 @@ import MenuButton from '../components/MenuButton'
 import NavPanel from '../components/NavPanel'
 import Hero from '../components/Hero'
 import AboutSection from '../components/AboutSection'
+import AboutSectionDesktop from '../components/AboutSectionDesktop'
 import GallerySection from '../components/GallerySection'
 import CoachSection from '../components/CoachSection'
 import ContactSection from '../components/ContactSection'
@@ -168,13 +169,20 @@ export default function Home({ booted }: { booted: boolean }) {
         </nav>
       </div>
 
-      <Hero onCta={goContact} booted={booted} />
-      <AboutSection />
-      <GallerySection />
-      <CoachSection />
-      <ContactSection />
+      {/* Hero fixed in background — sections scroll over it */}
+      <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, zIndex: 0 }}>
+        <Hero onCta={goContact} booted={booted} />
+      </div>
+      <div style={{ height: '100svh' }} aria-hidden="true" />
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div className="md:hidden"><AboutSection /></div>
+        <div className="hidden md:block breakout-full"><AboutSectionDesktop /></div>
+        <GallerySection />
+        <CoachSection />
+        <ContactSection />
+      </div>
 
-      {/* Sticky compact header — mobile only */}
+      {/* Sticky morphing header — mobile only. Same element transforms on scroll. */}
       <div
         className="fixed flex items-center justify-between md:hidden"
         style={{
@@ -183,16 +191,17 @@ export default function Home({ booted }: { booted: boolean }) {
           right: 0,
           maxWidth: 430,
           margin: '0 auto',
-          padding: '12px 24px',
-          paddingTop: 'max(12px, env(safe-area-inset-top))',
+          padding: scrolled ? '10px 24px' : '16px 24px',
+          paddingTop: scrolled
+            ? 'max(10px, env(safe-area-inset-top))'
+            : 'max(16px, env(safe-area-inset-top))',
           zIndex: 1000,
           background: scrolled ? 'rgba(13,13,16,0.78)' : 'transparent',
           backdropFilter: scrolled ? 'blur(10px)' : 'none',
           WebkitBackdropFilter: scrolled ? 'blur(10px)' : 'none',
           borderBottom: scrolled ? '1px solid rgba(255,255,255,0.06)' : '1px solid transparent',
-          transition: 'background 220ms ease, border-color 220ms ease',
-          pointerEvents: scrolled ? 'auto' : 'none',
-          opacity: scrolled ? 1 : 0,
+          transition:
+            'background 260ms ease, border-color 260ms ease, padding 360ms cubic-bezier(0.22,1,0.36,1)',
         }}
       >
         <a
@@ -202,22 +211,34 @@ export default function Home({ booted }: { booted: boolean }) {
             window.scrollTo({ top: 0, behavior: 'smooth' })
           }}
           className="flex flex-row items-center"
-          style={{ gap: 7, textDecoration: 'none' }}
+          style={{
+            gap: scrolled ? 7 : 9,
+            textDecoration: 'none',
+            transition: 'gap 360ms cubic-bezier(0.22,1,0.36,1)',
+          }}
         >
           <img
             src="/glorious-logo.png"
             alt="Glorious logo"
-            style={{ height: 32, width: 32, objectFit: 'contain', flexShrink: 0 }}
+            style={{
+              height: scrolled ? 32 : 44,
+              width: scrolled ? 32 : 44,
+              objectFit: 'contain',
+              flexShrink: 0,
+              transition:
+                'height 360ms cubic-bezier(0.22,1,0.36,1), width 360ms cubic-bezier(0.22,1,0.36,1)',
+            }}
           />
           <div className="flex flex-col" style={{ gap: 1 }}>
             <div
               style={{
                 fontFamily: 'Graduate, serif',
-                fontSize: 18,
+                fontSize: scrolled ? 18 : 26,
                 color: RED,
                 letterSpacing: '0.08em',
                 lineHeight: 1,
                 WebkitTextStroke: `0.5px ${RED}`,
+                transition: 'font-size 360ms cubic-bezier(0.22,1,0.36,1)',
               }}
             >
               GLORIOUS
@@ -225,11 +246,12 @@ export default function Home({ booted }: { booted: boolean }) {
             <div
               style={{
                 fontFamily: 'Graduate, serif',
-                fontSize: 7.5,
+                fontSize: scrolled ? 7.5 : 9.5,
                 color: '#fff',
                 letterSpacing: '0.18em',
                 lineHeight: 1,
                 textTransform: 'uppercase',
+                transition: 'font-size 360ms cubic-bezier(0.22,1,0.36,1)',
               }}
             >
               FITNESS CENTER
@@ -239,17 +261,20 @@ export default function Home({ booted }: { booted: boolean }) {
         <div style={{ width: 44, height: 44 }} />
       </div>
 
-      {/* Floating hamburger — mobile only */}
+      {/* Floating hamburger — mobile only. Tracks header morph. */}
       <div
         className="fixed md:hidden"
         style={{
-          top: 'max(44px, env(safe-area-inset-top))',
+          top: scrolled
+            ? 'max(10px, env(safe-area-inset-top))'
+            : 'max(16px, env(safe-area-inset-top))',
           right: 24,
           zIndex: 1100,
           maxWidth: 430,
           margin: '0 auto',
           left: 0,
           pointerEvents: 'none',
+          transition: 'top 360ms cubic-bezier(0.22,1,0.36,1)',
         }}
       >
         <div

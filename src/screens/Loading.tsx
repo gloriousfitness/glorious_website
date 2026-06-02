@@ -103,7 +103,7 @@ export default function Loading({ onDone, onVideoStart }: Props) {
         transitionDuration: `480ms, ${SWIPE_MS}ms`,
         transitionTimingFunction: 'cubic-bezier(0.65,0,0.35,1), cubic-bezier(0.76,0,0.24,1)',
         boxShadow: swiping ? '0 -30px 60px rgba(0,0,0,0.5)' : 'none',
-        zIndex: 999,
+        zIndex: 2000,
       }}
     >
       {flipped && (
