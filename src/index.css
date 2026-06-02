@@ -1,0 +1,78 @@
+@import "tailwindcss";
+
+@theme {
+  --color-glorious-red: #E10A1F;
+  --color-glorious-bg: #0d0d10;
+  --color-glorious-card: #161618;
+  --font-graduate: "Graduate", "Times New Roman", serif;
+}
+
+@font-face {
+  font-family: 'Graduate';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(https://fonts.gstatic.com/s/graduate/v17/C8cg4cs3o2n15t_2YxgR6X2KZQ.woff2) format('woff2');
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background: #0d0d10;
+  color: #fff;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overscroll-behavior: none;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+}
+
+button {
+  font-family: inherit;
+}
+
+/* Mobile-first container: phone width on desktop, full width on mobile */
+.mobile-shell {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+  min-height: 100svh;
+  position: relative;
+  background: #0d0d10;
+}
+
+@media (min-width: 431px) {
+  body {
+    background: #1a1a1d;
+  }
+  .mobile-shell {
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+  }
+}
+
+/* Break a section out of mobile-shell to fill viewport width */
+.breakout-full {
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+}
+
+/* Leaflet dark overrides */
+.leaflet-container {
+  background: #0d0d10;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+.leaflet-control-attribution {
+  background: rgba(13,13,16,0.7) !important;
+  color: rgba(255,255,255,0.35) !important;
+  font-size: 10px !important;
+  backdrop-filter: blur(6px);
+}
+.leaflet-control-attribution a {
+  color: rgba(255,255,255,0.45) !important;
+}
