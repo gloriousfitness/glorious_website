@@ -27,7 +27,7 @@ function DesktopNavLink({ label, href, onClick }: { label: string; href: string;
       onMouseLeave={() => setHovered(false)}
       style={{
         position: 'relative',
-        fontFamily: 'Graduate, serif',
+        fontFamily: 'Freshman, serif',
         fontSize: 11,
         color: hovered ? '#fff' : 'rgba(255,255,255,0.62)',
         textDecoration: 'none',
@@ -132,7 +132,7 @@ export default function Home({ booted }: { booted: boolean }) {
           <div className="flex flex-col" style={{ gap: 2 }}>
             <div
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 17,
                 color: RED,
                 letterSpacing: '0.08em',
@@ -143,7 +143,7 @@ export default function Home({ booted }: { booted: boolean }) {
             </div>
             <div
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 7,
                 color: 'rgba(255,255,255,0.7)',
                 letterSpacing: '0.22em',
@@ -232,7 +232,7 @@ export default function Home({ booted }: { booted: boolean }) {
           <div className="flex flex-col" style={{ gap: 1 }}>
             <div
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: scrolled ? 18 : 26,
                 color: RED,
                 letterSpacing: '0.08em',
@@ -245,7 +245,7 @@ export default function Home({ booted }: { booted: boolean }) {
             </div>
             <div
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: scrolled ? 7.5 : 9.5,
                 color: '#fff',
                 letterSpacing: '0.18em',

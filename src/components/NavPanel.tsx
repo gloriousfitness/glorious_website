@@ -45,7 +45,7 @@ export default function NavPanel({ open, linksVisible, onClose }: Props) {
             <div className="flex flex-col" style={{ gap: 1 }}>
               <div
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 24,
                   color: RED,
                   letterSpacing: '0.08em',
@@ -57,7 +57,7 @@ export default function NavPanel({ open, linksVisible, onClose }: Props) {
               </div>
               <div
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 9,
                   color: '#fff',
                   letterSpacing: '0.18em',
@@ -82,7 +82,7 @@ export default function NavPanel({ open, linksVisible, onClose }: Props) {
               go(link.anchor)
             }}
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 34,
               lineHeight: 1,
               color: '#fff',

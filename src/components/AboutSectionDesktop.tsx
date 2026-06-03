@@ -78,7 +78,7 @@ function WingRow({
       {/* Big index numeral */}
       <div
         style={{
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 'clamp(72px, 7vw, 108px)',
           lineHeight: 0.85,
           color: hovered ? RED : 'rgba(255,255,255,0.92)',
@@ -109,7 +109,7 @@ function WingRow({
         </div>
         <h3
           style={{
-            fontFamily: 'Graduate, serif',
+            fontFamily: 'Freshman, serif',
             fontSize: 26,
             letterSpacing: '0.01em',
             margin: 0,
@@ -158,7 +158,7 @@ function WingRow({
         />
         <span
           style={{
-            fontFamily: 'Graduate, serif',
+            fontFamily: 'Freshman, serif',
             fontSize: 14,
             color: hovered ? RED : 'rgba(255,255,255,0.4)',
             transition: 'color 280ms ease',
@@ -219,7 +219,7 @@ export default function AboutSectionDesktop() {
           zIndex: 2,
           background: RED,
           color: '#fff',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 11,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
@@ -241,7 +241,7 @@ export default function AboutSectionDesktop() {
           position: 'absolute',
           top: '38%',
           right: '-3vw',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 'clamp(180px, 22vw, 360px)',
           color: 'rgba(225,10,31,0.045)',
           whiteSpace: 'nowrap',
@@ -304,7 +304,7 @@ export default function AboutSectionDesktop() {
           >
             <div
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 11,
                 letterSpacing: '0.24em',
                 color: RED,
@@ -315,7 +315,7 @@ export default function AboutSectionDesktop() {
             </div>
             <h2
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 'clamp(72px, 8vw, 132px)',
                 lineHeight: 0.86,
                 margin: 0,
@@ -375,7 +375,7 @@ export default function AboutSectionDesktop() {
                 >
                   <div
                     style={{
-                      fontFamily: 'Graduate, serif',
+                      fontFamily: 'Freshman, serif',
                       fontSize: 'clamp(34px, 3.4vw, 48px)',
                       color: '#fff',
                       lineHeight: 1,
@@ -417,7 +417,7 @@ export default function AboutSectionDesktop() {
         >
           <div
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 11,
               color: RED,
               letterSpacing: '0.24em',
@@ -428,7 +428,7 @@ export default function AboutSectionDesktop() {
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
             <h3
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 38,
                 letterSpacing: '0.01em',
                 margin: 0,

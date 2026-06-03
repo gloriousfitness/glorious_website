@@ -41,7 +41,7 @@ export default function CoachSection() {
       </div>
       <h2
         style={{
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 44,
           lineHeight: 0.95,
           margin: 0,
@@ -102,7 +102,7 @@ export default function CoachSection() {
               <div className="flex flex-col" style={{ flex: 1, gap: 4 }}>
                 <div
                   style={{
-                    fontFamily: 'Graduate, serif',
+                    fontFamily: 'Freshman, serif',
                     fontSize: 8.5,
                     letterSpacing: '0.22em',
                     color: RED,
@@ -114,7 +114,7 @@ export default function CoachSection() {
                 </div>
                 <h3
                   style={{
-                    fontFamily: 'Graduate, serif',
+                    fontFamily: 'Freshman, serif',
                     fontSize: 22,
                     letterSpacing: '0.02em',
                     margin: 0,

@@ -15,13 +15,21 @@
   src: url(https://fonts.gstatic.com/s/graduate/v17/C8cg4cs3o2n15t_2YxgR6X2KZQ.woff2) format('woff2');
 }
 
+@font-face {
+  font-family: 'Freshman';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/Freshman.ttf') format('truetype');
+}
+
 html, body, #root {
   margin: 0;
   padding: 0;
   height: 100%;
   background: #0d0d10;
   color: #fff;
-  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  font-family: 'Freshman', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   overscroll-behavior: none;
 }

@@ -139,7 +139,7 @@ function Lightbox({
           padding: '14px 24px',
           background: RED,
           color: '#fff',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 10.5,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
@@ -160,7 +160,7 @@ function Lightbox({
             background: 'transparent',
             border: '1px solid rgba(255,255,255,0.5)',
             color: '#fff',
-            fontFamily: 'Graduate, serif',
+            fontFamily: 'Freshman, serif',
             fontSize: 11,
             letterSpacing: '0.24em',
             padding: '5px 12px',
@@ -204,7 +204,7 @@ function Lightbox({
           color: '#fff',
           width: 56,
           height: 56,
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 22,
           cursor: 'pointer',
           zIndex: 2,
@@ -223,7 +223,7 @@ function Lightbox({
           color: '#fff',
           width: 56,
           height: 56,
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 22,
           cursor: 'pointer',
           zIndex: 2,
@@ -342,7 +342,7 @@ function Frame({
           position: 'absolute',
           top: 8,
           left: 12,
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: desktop ? 10.5 : 9.5,
           letterSpacing: '0.28em',
           color: RED,
@@ -672,7 +672,7 @@ function Ticker({ left, right }: { left: string; right: string }) {
         zIndex: 3,
         background: RED,
         color: '#fff',
-        fontFamily: 'Graduate, serif',
+        fontFamily: 'Freshman, serif',
         fontSize: 10.5,
         letterSpacing: '0.32em',
         textTransform: 'uppercase',
@@ -698,7 +698,7 @@ function MobileTicker({ left, right }: { left: string; right: string }) {
         zIndex: 3,
         background: RED,
         color: '#fff',
-        fontFamily: 'Graduate, serif',
+        fontFamily: 'Freshman, serif',
         fontSize: 9.5,
         letterSpacing: '0.32em',
         textTransform: 'uppercase',
@@ -766,7 +766,7 @@ function CategoryNav({
             />
             <span
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: desktop ? 11 : 10,
                 letterSpacing: '0.28em',
                 color: isActive ? RED : 'rgba(255,255,255,0.35)',
@@ -776,7 +776,7 @@ function CategoryNav({
             </span>
             <span
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: desktop ? 18 : 16,
                 letterSpacing: '0.04em',
                 color: isActive ? '#fff' : 'rgba(255,255,255,0.55)',
@@ -817,7 +817,7 @@ function ViewToggle({
       style={{
         display: 'inline-flex',
         border: `1px solid ${RED}`,
-        fontFamily: 'Graduate, serif',
+        fontFamily: 'Freshman, serif',
         fontSize: 10,
         letterSpacing: '0.28em',
         textTransform: 'uppercase',
@@ -925,7 +925,7 @@ export default function GallerySection() {
               position: 'absolute',
               top: '32%',
               right: '-3vw',
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 'clamp(180px, 22vw, 360px)',
               color: 'rgba(225,10,31,0.045)',
               whiteSpace: 'nowrap',
@@ -984,7 +984,7 @@ export default function GallerySection() {
             >
               <div
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 11,
                   letterSpacing: '0.24em',
                   color: RED,
@@ -995,7 +995,7 @@ export default function GallerySection() {
               </div>
               <h2
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 'clamp(64px, 6vw, 92px)',
                   lineHeight: 0.88,
                   margin: '0 0 0 -2px',
@@ -1035,7 +1035,7 @@ export default function GallerySection() {
                 <div style={{ flex: 1, padding: '18px 0 16px' }}>
                   <div
                     style={{
-                      fontFamily: 'Graduate, serif',
+                      fontFamily: 'Freshman, serif',
                       fontSize: 32,
                       color: '#fff',
                       lineHeight: 1,
@@ -1059,7 +1059,7 @@ export default function GallerySection() {
                 <div style={{ flex: 1, padding: '18px 0 16px', borderLeft: '1px solid rgba(255,255,255,0.06)', paddingLeft: 18 }}>
                   <div
                     style={{
-                      fontFamily: 'Graduate, serif',
+                      fontFamily: 'Freshman, serif',
                       fontSize: 32,
                       color: '#fff',
                       lineHeight: 1,
@@ -1145,7 +1145,7 @@ export default function GallerySection() {
                   </div>
                   <h3
                     style={{
-                      fontFamily: 'Graduate, serif',
+                      fontFamily: 'Freshman, serif',
                       fontSize: 40,
                       letterSpacing: '0.01em',
                       margin: 0,
@@ -1256,7 +1256,7 @@ export default function GallerySection() {
             position: 'absolute',
             top: 140,
             right: '-16vw',
-            fontFamily: 'Graduate, serif',
+            fontFamily: 'Freshman, serif',
             fontSize: 'clamp(220px, 72vw, 380px)',
             color: 'rgba(225,10,31,0.055)',
             whiteSpace: 'nowrap',
@@ -1276,7 +1276,7 @@ export default function GallerySection() {
             <div style={{ width: 28, height: 1, background: RED }} />
             <div
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 10,
                 letterSpacing: '0.28em',
                 color: RED,
@@ -1289,7 +1289,7 @@ export default function GallerySection() {
 
           <h2
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 'clamp(60px, 20vw, 92px)',
               lineHeight: 0.86,
               margin: '0 0 0 -2px',
@@ -1367,7 +1367,7 @@ export default function GallerySection() {
                 </div>
                 <div
                   style={{
-                    fontFamily: 'Graduate, serif',
+                    fontFamily: 'Freshman, serif',
                     fontSize: 26,
                     color: '#fff',
                     lineHeight: 1,

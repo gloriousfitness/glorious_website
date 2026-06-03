@@ -62,7 +62,7 @@ export default function AboutSection() {
           zIndex: 2,
           background: RED,
           color: '#fff',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 9.5,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
@@ -84,7 +84,7 @@ export default function AboutSection() {
           position: 'absolute',
           top: 120,
           right: '-12vw',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 'clamp(200px, 64vw, 360px)',
           color: 'rgba(225,10,31,0.055)',
           whiteSpace: 'nowrap',
@@ -124,7 +124,7 @@ export default function AboutSection() {
           />
           <div
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 10,
               letterSpacing: '0.28em',
               color: RED,
@@ -138,7 +138,7 @@ export default function AboutSection() {
         {/* Headline — bleeds left past padding */}
         <h2
           style={{
-            fontFamily: 'Graduate, serif',
+            fontFamily: 'Freshman, serif',
             fontSize: 'clamp(82px, 26vw, 112px)',
             lineHeight: 0.84,
             margin: '0 0 0 -4px',
@@ -188,7 +188,7 @@ export default function AboutSection() {
             >
               <div
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 30,
                   color: '#fff',
                   lineHeight: 1,
@@ -234,7 +234,7 @@ export default function AboutSection() {
           </div>
           <h3
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 40,
               letterSpacing: '0.01em',
               margin: 0,
@@ -264,7 +264,7 @@ export default function AboutSection() {
               {/* Big numeral */}
               <div
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 72,
                   lineHeight: 0.82,
                   color: '#fff',
@@ -289,7 +289,7 @@ export default function AboutSection() {
                 </div>
                 <h4
                   style={{
-                    fontFamily: 'Graduate, serif',
+                    fontFamily: 'Freshman, serif',
                     fontSize: 22,
                     letterSpacing: '0.01em',
                     margin: '0 0 10px',

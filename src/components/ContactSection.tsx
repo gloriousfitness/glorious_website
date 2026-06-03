@@ -211,7 +211,7 @@ function MobileContact() {
           zIndex: 2,
           background: RED,
           color: '#fff',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 9.5,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
@@ -232,7 +232,7 @@ function MobileContact() {
           position: 'absolute',
           top: 140,
           right: '-14vw',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 'clamp(220px, 70vw, 380px)',
           color: 'rgba(225,10,31,0.055)',
           whiteSpace: 'nowrap',
@@ -251,7 +251,7 @@ function MobileContact() {
           <div style={{ width: 28, height: 1, background: RED }} />
           <div
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 10,
               letterSpacing: '0.28em',
               color: RED,
@@ -264,7 +264,7 @@ function MobileContact() {
 
         <h2
           style={{
-            fontFamily: 'Graduate, serif',
+            fontFamily: 'Freshman, serif',
             fontSize: 'clamp(60px, 18vw, 88px)',
             lineHeight: 0.86,
             margin: '0 0 0 -2px',
@@ -360,7 +360,7 @@ function MobileContact() {
             >
               <div
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 48,
                   lineHeight: 0.82,
                   color: '#fff',
@@ -398,7 +398,7 @@ function MobileContact() {
               <div
                 aria-hidden
                 style={{
-                  fontFamily: 'Graduate, serif',
+                  fontFamily: 'Freshman, serif',
                   fontSize: 18,
                   color: 'rgba(255,255,255,0.35)',
                   textAlign: 'right',
@@ -423,7 +423,7 @@ function MobileContact() {
             background: 'transparent',
             color: '#fff',
             textDecoration: 'none',
-            fontFamily: 'Graduate, serif',
+            fontFamily: 'Freshman, serif',
             fontSize: 14,
             letterSpacing: '0.28em',
             textTransform: 'uppercase',
@@ -508,7 +508,7 @@ function MobileContact() {
         >
           <span
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 10,
               color: '#fff',
               letterSpacing: '0.28em',
@@ -549,7 +549,7 @@ function MobileContact() {
           zIndex: 2,
           background: RED,
           color: '#fff',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 9.5,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
@@ -618,7 +618,7 @@ function DesktopContact() {
           zIndex: 3,
           background: RED,
           color: '#fff',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 10.5,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
@@ -656,7 +656,7 @@ function DesktopContact() {
             <div style={{ width: 32, height: 1, background: RED }} />
             <div
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 10,
                 letterSpacing: '0.28em',
                 color: RED,
@@ -670,7 +670,7 @@ function DesktopContact() {
           {/* Headline */}
           <h2
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 'clamp(48px, 4.6vw, 72px)',
               lineHeight: 0.9,
               margin: '0 0 0 -2px',
@@ -770,7 +770,7 @@ function DesktopContact() {
               >
                 <div
                   style={{
-                    fontFamily: 'Graduate, serif',
+                    fontFamily: 'Freshman, serif',
                     fontSize: 42,
                     lineHeight: 0.82,
                     color: '#fff',
@@ -809,7 +809,7 @@ function DesktopContact() {
                   className="gfc-arrow"
                   aria-hidden
                   style={{
-                    fontFamily: 'Graduate, serif',
+                    fontFamily: 'Freshman, serif',
                     fontSize: 18,
                     color: 'rgba(255,255,255,0.35)',
                     textAlign: 'right',
@@ -835,7 +835,7 @@ function DesktopContact() {
               background: 'transparent',
               color: '#fff',
               textDecoration: 'none',
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 13,
               letterSpacing: '0.32em',
               textTransform: 'uppercase',
@@ -984,7 +984,7 @@ function DesktopContact() {
                 >
                   <span
                     style={{
-                      fontFamily: 'Graduate, serif',
+                      fontFamily: 'Freshman, serif',
                       fontSize: 8.5,
                       letterSpacing: '0.28em',
                       color: RED,
@@ -1028,7 +1028,7 @@ function DesktopContact() {
           >
             <span
               style={{
-                fontFamily: 'Graduate, serif',
+                fontFamily: 'Freshman, serif',
                 fontSize: 11,
                 color: '#fff',
                 letterSpacing: '0.28em',
@@ -1064,7 +1064,7 @@ function DesktopContact() {
           zIndex: 3,
           background: RED,
           color: '#fff',
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 10.5,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',

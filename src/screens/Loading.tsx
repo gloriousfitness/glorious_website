@@ -118,7 +118,7 @@ export default function Loading({ onDone, onVideoStart }: Props) {
       <div
         className="select-none leading-none flex"
         style={{
-          fontFamily: 'Graduate, serif',
+          fontFamily: 'Freshman, serif',
           fontSize: 'clamp(44px, 9vw, 140px)',
           letterSpacing: '0.06em',
           opacity: morphing ? 1 : 0,
