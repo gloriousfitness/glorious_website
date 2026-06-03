@@ -562,9 +562,9 @@ function DesktopHero({ onCta, booted }: Props) {
 
           <h1
             style={{
-              fontFamily: 'Graduate, serif',
+              fontFamily: 'Freshman, serif',
               fontSize: 'clamp(74px, 8.4vw, 148px)',
-              lineHeight: 0.84,
+              lineHeight: 0.92,
               letterSpacing: '-0.025em',
               margin: 0,
               color: '#fff',
@@ -572,8 +572,8 @@ function DesktopHero({ onCta, booted }: Props) {
               willChange: 'transform',
             }}
           >
-            Wear&nbsp;the<br />
-            <span style={{ color: '#0a0a0d' }}>Moment.</span>
+            <span style={{ display: 'block' }}>Wear&nbsp;the</span>
+            <span style={{ display: 'block', color: '#0a0a0d', marginTop: '0.04em' }}>Moment.</span>
           </h1>
         </div>
       </div>
