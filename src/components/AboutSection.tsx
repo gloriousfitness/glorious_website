@@ -1,29 +1,29 @@
 const RED = '#E10A1F'
 
 const STATS = [
-  { v: '24/7', l: 'Open Floor' },
-  { v: '80', l: 'Cap on Floor' },
-  { v: '1:1', l: 'Trainers' },
+  { v: '6—10', l: 'Open Daily' },
+  { v: '1:1', l: 'Coaching' },
+  { v: 'ALL', l: 'Disciplines' },
 ]
 
 const WINGS = [
   {
     n: '01',
-    title: 'Strength Floor',
-    body: 'Power racks, platforms, plates. Built for heavy work — no waiting, no lines.',
+    title: 'Free Weights',
+    body: 'Barbells, dumbbells, racks, plates. Pick the weight, do the work — no waiting, no lines.',
     tag: 'Iron',
   },
   {
     n: '02',
-    title: 'Recovery Suite',
-    body: 'Sauna, cold plunge, mobility tools. Recover hard so you can train hard.',
-    tag: 'Reset',
+    title: 'Cardio',
+    body: 'Bikes, rowers, treadmills. Pump lungs, build the engine, finish strong.',
+    tag: 'Burn',
   },
   {
     n: '03',
-    title: 'Personal Training',
-    body: '1-on-1 coaching from competitive lifters. Programmed for the result you want.',
-    tag: 'Coach',
+    title: 'Bodyweight',
+    body: 'Bars, rings, mats, mobility tools. Own the body before you own the iron.',
+    tag: 'Move',
   },
 ]
 
@@ -140,7 +140,7 @@ export default function AboutSection() {
           style={{
             fontFamily: 'Freshman, serif',
             fontSize: 'clamp(82px, 26vw, 112px)',
-            lineHeight: 0.84,
+            lineHeight: 0.95,
             margin: '0 0 0 -4px',
             letterSpacing: '-0.02em',
             color: '#fff',
@@ -160,8 +160,8 @@ export default function AboutSection() {
             margin: '32px 0 0',
           }}
         >
-          A 24/7 open-floor gym for people who train like they mean it. No classes, no waiting —
-          just iron, you, and a trainer if you want one.{' '}
+          Open 6 to 10, every single day. Cardio, weights, bodyweight — whatever the goal demands,
+          the kit is here. No classes, no schedule — just iron, you, and a coach if you want one.{' '}
           <span style={{ color: '#fff' }}>
             Forged for lifters, fighters, and anyone chasing a legend worth telling.
           </span>
@@ -212,11 +212,11 @@ export default function AboutSection() {
           ))}
         </div>
 
-        {/* The Floor. header */}
+        {/* The Kit. header */}
         <div
           style={{
-            marginTop: 64,
-            paddingBottom: 18,
+            marginTop: 40,
+            paddingBottom: 14,
             borderBottom: `2px solid ${RED}`,
           }}
         >
@@ -230,7 +230,7 @@ export default function AboutSection() {
               marginBottom: 10,
             }}
           >
-            [ 002 / Facilities — Three Wings ]
+            [ 002 / The Kit — Categories ]
           </div>
           <h3
             style={{
@@ -242,7 +242,7 @@ export default function AboutSection() {
               lineHeight: 1,
             }}
           >
-            The Floor.
+            The Kit.
           </h3>
         </div>
 
@@ -253,9 +253,9 @@ export default function AboutSection() {
               key={w.n}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '78px 1fr',
-                gap: 16,
-                padding: '26px 0 28px',
+                gridTemplateColumns: '92px 1fr',
+                gap: 20,
+                padding: '20px 0 22px',
                 borderBottom:
                   i < WINGS.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
                 alignItems: 'start',
