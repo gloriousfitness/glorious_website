@@ -27,7 +27,7 @@ export default function Loading({ onDone, onVideoStart }: Props) {
 
   useEffect(() => {
     let cancelled = false
-    document.fonts.load('1em Graduate').then(() => {
+    document.fonts.load('1em Freshman').then(() => {
       if (!cancelled) setFontReady(true)
     }).catch(() => {
       if (!cancelled) setFontReady(true)
