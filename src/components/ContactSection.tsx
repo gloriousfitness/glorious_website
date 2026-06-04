@@ -1,12 +1,17 @@
 import { useEffect, useRef } from 'react'
 
 const RED = '#E10A1F'
-const GYM_LAT = 7.2906
-const GYM_LNG = 80.6337
-const MAPS_URL = `https://www.google.com/maps?q=${GYM_LAT},${GYM_LNG}`
-const PHONE_DISPLAY = '+94 81 222 0000'
-const PHONE_HREF = 'tel:+94812220000'
-const EMAIL = 'hello@glorious.fit'
+const GYM_LAT = 7.3400625
+const GYM_LNG = 80.6776875
+const MAPS_URL = 'https://maps.app.goo.gl/rcHYof6cgEns3dfe7'
+const PHONE_DISPLAY = '081 760 1677'
+const PHONE_HREF = 'tel:+94817601677'
+const PHONE2_DISPLAY = '075 695 3689'
+const PHONE2_HREF = 'tel:+94756953689'
+const WEBSITE_DISPLAY = 'www.gloriousfitness.lk'
+const WEBSITE_HREF = 'https://www.gloriousfitness.lk'
+const ADDRESS_LINE1 = 'No: 340, Kandy Road'
+const ADDRESS_LINE2 = 'Wattegama, Kandy'
 
 const GRAIN_BG =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")"
@@ -153,14 +158,23 @@ type InfoRowData = {
 }
 
 const INFO_ROWS: InfoRowData[] = [
-  { n: '01', label: 'Phone', value: PHONE_DISPLAY, href: PHONE_HREF },
-  { n: '02', label: 'Email', value: EMAIL, href: `mailto:${EMAIL}` },
+  {
+    n: '01',
+    label: 'Phone',
+    value: (
+      <>
+        {PHONE_DISPLAY}<br />{PHONE2_DISPLAY}
+      </>
+    ),
+    href: PHONE_HREF,
+  },
+  { n: '02', label: 'Web', value: WEBSITE_DISPLAY, href: WEBSITE_HREF, external: true },
   {
     n: '03',
     label: 'Address',
     value: (
       <>
-        14 Dalada Veediya<br />Kandy 20000
+        {ADDRESS_LINE1}<br />{ADDRESS_LINE2}, Sri Lanka
       </>
     ),
     href: MAPS_URL,
@@ -184,7 +198,6 @@ const RIGHT_PHOTOS: { src: string; label: string }[] = [
 function MobileContact() {
   return (
     <section
-      id="contact"
       style={{
         position: 'relative',
         background: '#0a0a0d',
@@ -223,7 +236,7 @@ function MobileContact() {
         }}
       >
         <span>Open 24 / 7</span>
-        <span style={{ opacity: 0.85 }}>Kandy · 7.29°N 80.63°E</span>
+        <span style={{ opacity: 0.85 }}>Wattegama · 7.34°N 80.68°E</span>
       </div>
 
       <div
@@ -527,7 +540,7 @@ function MobileContact() {
                 display: 'inline-block',
               }}
             />
-            14 Dalada Veediya · Kandy
+            No. 340 Kandy Rd · Wattegama
           </span>
           <span
             style={{
@@ -571,7 +584,6 @@ function MobileContact() {
 function DesktopContact() {
   return (
     <section
-      id="contact"
       style={{
         position: 'relative',
         width: '100%',
@@ -630,8 +642,8 @@ function DesktopContact() {
           flexShrink: 0,
         }}
       >
-        <span>Glorious F.C. · Kandy</span>
-        <span style={{ opacity: 0.85 }}>Open 24 / 7 · Walk-ins Welcome · 7.29°N 80.63°E</span>
+        <span>Glorious Fitness Factory · Wattegama</span>
+        <span style={{ opacity: 0.85 }}>Open 24 / 7 · Walk-ins Welcome · 7.34°N 80.68°E</span>
       </div>
 
       {/* Main row */}
@@ -1039,7 +1051,7 @@ function DesktopContact() {
               }}
             >
               <span style={{ width: 7, height: 7, borderRadius: 999, background: RED }} />
-              14 Dalada Veediya · Kandy
+              No. 340 Kandy Rd · Wattegama
             </span>
             <span style={{ width: 1, height: 14, background: 'rgba(255,255,255,0.18)' }} />
             <span
@@ -1077,7 +1089,7 @@ function DesktopContact() {
         }}
       >
         <span>Iron · Sweat · Glory</span>
-        <span style={{ opacity: 0.85 }}>{PHONE_DISPLAY} · {EMAIL}</span>
+        <span style={{ opacity: 0.85 }}>{PHONE_DISPLAY} · {PHONE2_DISPLAY} · {WEBSITE_DISPLAY}</span>
       </div>
     </section>
   )
@@ -1086,13 +1098,13 @@ function DesktopContact() {
 /* ─── Responsive switcher ───────────────────────────────────────────── */
 export default function ContactSection() {
   return (
-    <>
+    <div id="contact">
       <div className="block md:hidden">
         <MobileContact />
       </div>
       <div className="hidden md:block breakout-full">
         <DesktopContact />
       </div>
-    </>
+    </div>
   )
 }
