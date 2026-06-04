@@ -551,7 +551,7 @@ function MobileContact() {
               textTransform: 'uppercase',
             }}
           >
-            Open ↗
+            Open in Google Maps ↗
           </span>
         </div>
       </div>
@@ -580,8 +580,155 @@ function MobileContact() {
   )
 }
 
+/* ─── Map cursor tooltip (desktop) ──────────────────────────────────── */
+function MapCursorTooltip({ targetRef }: { targetRef: React.RefObject<HTMLDivElement | null> }) {
+  const tipRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const target = targetRef.current
+    const tip = tipRef.current
+    if (!target || !tip) return
+
+    let raf = 0
+    let x = 0
+    let y = 0
+    let cx = 0
+    let cy = 0
+    let active = false
+
+    const render = () => {
+      cx += (x - cx) * 0.22
+      cy += (y - cy) * 0.22
+      tip.style.transform = `translate3d(${cx}px, ${cy}px, 0)`
+      if (Math.abs(x - cx) > 0.1 || Math.abs(y - cy) > 0.1) {
+        raf = requestAnimationFrame(render)
+      } else {
+        raf = 0
+      }
+    }
+
+    const onMove = (e: MouseEvent) => {
+      const rect = target.getBoundingClientRect()
+      x = e.clientX - rect.left
+      y = e.clientY - rect.top
+      if (!active) {
+        active = true
+        cx = x
+        cy = y
+        tip.style.transform = `translate3d(${cx}px, ${cy}px, 0)`
+        tip.style.opacity = '1'
+        tip.style.scale = '1'
+      }
+      if (!raf) raf = requestAnimationFrame(render)
+    }
+
+    const onLeave = () => {
+      active = false
+      tip.style.opacity = '0'
+      tip.style.scale = '0.85'
+    }
+
+    target.addEventListener('mousemove', onMove)
+    target.addEventListener('mouseleave', onLeave)
+    return () => {
+      target.removeEventListener('mousemove', onMove)
+      target.removeEventListener('mouseleave', onLeave)
+      if (raf) cancelAnimationFrame(raf)
+    }
+  }, [targetRef])
+
+  return (
+    <div
+      ref={tipRef}
+      aria-hidden
+      style={{
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 20,
+        pointerEvents: 'none',
+        opacity: 0,
+        scale: '0.85',
+        transition: 'opacity 0.22s ease, scale 0.22s cubic-bezier(0.2, 0.9, 0.3, 1.2)',
+        transformOrigin: '0 0',
+        willChange: 'transform, opacity',
+        marginLeft: 22,
+        marginTop: 22,
+      }}
+    >
+      <div
+        style={{
+          position: 'relative',
+          background: 'rgba(10,10,13,0.92)',
+          border: `1px solid ${RED}`,
+          padding: '10px 14px 10px 16px',
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 12,
+          whiteSpace: 'nowrap',
+          boxShadow: '0 10px 30px rgba(0,0,0,0.5), 0 0 0 1px rgba(225,10,31,0.15)',
+          backdropFilter: 'blur(6px)',
+        }}
+      >
+        {/* corner ticks */}
+        <span style={{ position: 'absolute', top: -1, left: -1, width: 6, height: 6, borderTop: `1px solid ${RED}`, borderLeft: `1px solid ${RED}` }} />
+        <span style={{ position: 'absolute', top: -1, right: -1, width: 6, height: 6, borderTop: `1px solid ${RED}`, borderRight: `1px solid ${RED}` }} />
+        <span style={{ position: 'absolute', bottom: -1, left: -1, width: 6, height: 6, borderBottom: `1px solid ${RED}`, borderLeft: `1px solid ${RED}` }} />
+        <span style={{ position: 'absolute', bottom: -1, right: -1, width: 6, height: 6, borderBottom: `1px solid ${RED}`, borderRight: `1px solid ${RED}` }} />
+
+        <span
+          style={{
+            width: 7,
+            height: 7,
+            borderRadius: 999,
+            background: RED,
+            boxShadow: `0 0 8px ${RED}`,
+            flexShrink: 0,
+          }}
+        />
+        <span
+          style={{
+            fontFamily: 'Freshman, serif',
+            fontSize: 10,
+            letterSpacing: '0.32em',
+            color: '#fff',
+            textTransform: 'uppercase',
+            lineHeight: 1,
+          }}
+        >
+          Open in Google Maps
+        </span>
+        <span
+          style={{
+            color: RED,
+            fontSize: 13,
+            lineHeight: 1,
+            fontFamily: 'Freshman, serif',
+          }}
+        >
+          ↗
+        </span>
+      </div>
+      <div
+        style={{
+          marginTop: 6,
+          marginLeft: 2,
+          fontFamily: 'Inter, system-ui',
+          fontSize: 8.5,
+          letterSpacing: '0.32em',
+          color: 'rgba(255,255,255,0.55)',
+          textTransform: 'uppercase',
+        }}
+      >
+        7.34°N · 80.68°E
+      </div>
+    </div>
+  )
+}
+
 /* ─── Tablet / Desktop layout ───────────────────────────────────────── */
 function DesktopContact() {
+  const mapAreaRef = useRef<HTMLDivElement>(null)
   return (
     <section
       style={{
@@ -889,7 +1036,8 @@ function DesktopContact() {
         </div>
 
         {/* ── Map area ── */}
-        <div style={{ flex: 1, position: 'relative', overflow: 'hidden', background: '#0a0a0d' }}>
+        <div ref={mapAreaRef} style={{ flex: 1, position: 'relative', overflow: 'hidden', background: '#0a0a0d', cursor: 'none' }}>
+          <MapCursorTooltip targetRef={mapAreaRef} />
           <LeafletMap
             pulseMarker
             staticMap
@@ -903,7 +1051,7 @@ function DesktopContact() {
             target="_blank"
             rel="noopener noreferrer"
             aria-label="Open in Maps"
-            style={{ position: 'absolute', inset: 0, zIndex: 5 }}
+            style={{ position: 'absolute', inset: 0, zIndex: 5, cursor: 'none' }}
           />
 
           {/* Crosshair lines through marker — decorative */}
