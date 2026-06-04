@@ -478,6 +478,7 @@ function ScatterCanvas({
   const downTargetRef = useRef<HTMLElement | null>(null)
   const lastMove = useRef({ x: 0, y: 0, t: 0 })
   const rafRef = useRef(0)
+  const containerRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
     cancelAnimationFrame(rafRef.current)
@@ -485,6 +486,21 @@ function ScatterCanvas({
     panRef.current = { x: 0, y: 0 }
     setPan({ x: 0, y: 0 })
   }, [category])
+
+  useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
+
+  useEffect(() => {
+    const el = containerRef.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const io = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) {
+        cancelAnimationFrame(rafRef.current)
+        velRef.current = { x: 0, y: 0 }
+      }
+    })
+    io.observe(el)
+    return () => io.disconnect()
+  }, [])
 
   const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
     cancelAnimationFrame(rafRef.current)
@@ -551,6 +567,7 @@ function ScatterCanvas({
 
   return (
     <div
+      ref={containerRef}
       onPointerDown={onPointerDown}
       onPointerMove={onPointerMove}
       onPointerUp={onPointerUp}
@@ -1203,10 +1220,6 @@ export default function GallerySection() {
             </div>
           </div>
 
-          <Ticker
-            left="Iron · Sweat · Glory"
-            right={`${String(images.length).padStart(3, '0')} Frames · ${CATEGORIES.length} Reels · Walk-ins 24/7`}
-          />
         </section>
       </>
     )
@@ -1422,7 +1435,6 @@ export default function GallerySection() {
           </div>
         </div>
 
-        <MobileTicker left="Iron · Sweat · Glory" right={`${String(images.length).padStart(3, '0')} Frames`} />
       </section>
     </>
   )

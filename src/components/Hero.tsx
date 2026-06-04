@@ -6,29 +6,51 @@ const MONO = "'JetBrains Mono', ui-monospace, Menlo, monospace"
 
 type Props = { onCta?: () => void; booted?: boolean }
 
+/* ─── In-view hook (pause work when offscreen) ──────────────────── */
+function useInView<T extends Element>(ref: React.RefObject<T | null>, rootMargin = '0px') {
+  const [inView, setInView] = useState(true)
+  useEffect(() => {
+    const el = ref.current
+    if (!el || typeof IntersectionObserver === 'undefined') return
+    const io = new IntersectionObserver(
+      ([entry]) => setInView(entry.isIntersecting),
+      { rootMargin }
+    )
+    io.observe(el)
+    return () => io.disconnect()
+  }, [ref, rootMargin])
+  return inView
+}
+
 /* ─── Shared timecode (24fps SMPTE) ─────────────────────────────── */
 function Timecode({ frames = true }: { frames?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null)
+  const inView = useInView(ref)
   useEffect(() => {
+    if (!inView) return
     const start = performance.now()
     let raf = 0
+    let lastFrame = -1
     const tick = (now: number) => {
       const e = (now - start) / 1000
-      const h = Math.floor(e / 3600) % 24
-      const m = Math.floor(e / 60) % 60
-      const s = Math.floor(e) % 60
       const f = Math.floor((e * 24) % 24)
-      const p = (n: number) => String(n).padStart(2, '0')
-      if (ref.current) {
-        ref.current.textContent = frames
-          ? `${p(h)}:${p(m)}:${p(s)}:${p(f)}`
-          : `${p(h)}:${p(m)}:${p(s)}`
+      if (f !== lastFrame) {
+        lastFrame = f
+        const h = Math.floor(e / 3600) % 24
+        const m = Math.floor(e / 60) % 60
+        const s = Math.floor(e) % 60
+        const p = (n: number) => String(n).padStart(2, '0')
+        if (ref.current) {
+          ref.current.textContent = frames
+            ? `${p(h)}:${p(m)}:${p(s)}:${p(f)}`
+            : `${p(h)}:${p(m)}:${p(s)}`
+        }
       }
       raf = requestAnimationFrame(tick)
     }
     raf = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(raf)
-  }, [frames])
+  }, [frames, inView])
   return <span ref={ref}>{frames ? '00:00:00:00' : '00:00:00'}</span>
 }
 
@@ -234,6 +256,8 @@ function MobileHero({ onCta, booted }: Props) {
 /* ─── Desktop (broadcast control room) ────────────────────────────── */
 function DesktopHero({ onCta, booted }: Props) {
   const videoRef = useRef<HTMLVideoElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
+  const inView = useInView(sectionRef, '100px')
   const [mounted, setMounted] = useState(false)
 
   useEffect(() => {
@@ -263,6 +287,8 @@ function DesktopHero({ onCta, booted }: Props) {
 
   return (
     <section
+      ref={sectionRef}
+      className={inView ? undefined : 'gfc-hero-paused'}
       style={{
         position: 'relative',
         width: '100vw',
@@ -285,6 +311,7 @@ function DesktopHero({ onCta, booted }: Props) {
           94% { text-shadow:  2px 0 0 ${RED}, -2px 0 0 #00e6ff; transform: translate(-1px,0); }
           95% { text-shadow: -1px 0 0 ${RED}, 1px 0 0 #00e6ff; transform: translate(0,0); }
         }
+        .gfc-hero-paused, .gfc-hero-paused * { animation-play-state: paused !important; }
         .gfc-cta-primary:hover { background:#fff !important; color:${RED} !important; }
         .gfc-cta-primary:hover .gfc-cta-tri { border-left-color:${RED} !important; }
         .gfc-cta-ghost:hover   { background:${RED} !important; color:#fff !important; border-color:${RED} !important; }
