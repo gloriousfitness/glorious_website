@@ -1,67 +1,28 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 const RED = '#E10A1F'
 
-const CATEGORIES = ['Gym', 'Competition', 'Transformation'] as const
+const CATEGORIES = ['Gym', 'Competition'] as const
 type CategoryName = (typeof CATEGORIES)[number]
 
 const GRAIN_BG =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")"
 
-const GYM_IMAGES = [
-  '5A6A7503.jpg','5A6A7504.jpg','BN3A9415.jpg','BN3A9416.jpg','BN3A9417.jpg',
-  'BN3A9418.jpg','FB_IMG_1534003443385.jpg','FB_IMG_1534003446324.jpg',
-  'FB_IMG_1534003449514.jpg','FB_IMG_1534003452144.jpg','FB_IMG_1534003454807.jpg',
-  'FB_IMG_1534003457787.jpg','FB_IMG_1534003460281.jpg','FB_IMG_1534003463110.jpg',
-  'FB_IMG_1534003465873.jpg','FB_IMG_1534003468303.jpg','FB_IMG_1534003472030.jpg',
-  'FB_IMG_1534003475293.jpg','FB_IMG_1534003486962.jpg','FB_IMG_1534003489537.jpg',
-  'FB_IMG_1534003492649.jpg','FB_IMG_1534003505233.jpg','FB_IMG_1534003522075.jpg',
-  'FB_IMG_1534003538315.jpg','FB_IMG_1534003541259.jpg','FB_IMG_1534003545158.jpg',
-].map(f => `/gallery/gym/${f}`)
+function globToSortedUrls(glob: Record<string, string>): string[] {
+  return Object.keys(glob).sort().map(k => glob[k])
+}
+
+const gymGlob = import.meta.glob('../assets/gallery/gym/*.webp', { eager: true, import: 'default', query: '?url' }) as Record<string, string>
+const competitionGlob = import.meta.glob('../assets/gallery/competition/*.webp', { eager: true, import: 'default', query: '?url' }) as Record<string, string>
 
 const CATEGORY_IMAGES: Record<CategoryName, string[]> = {
-  Gym: GYM_IMAGES,
-  Competition: GYM_IMAGES,
-  Transformation: GYM_IMAGES,
-}
-
-const TAG_POOLS: Record<CategoryName, string[]> = {
-  Gym: ['Iron', 'Rack', 'Plates', 'Cardio', 'Grind', 'Recovery', 'Lifters'],
-  Competition: ['Stage', 'Platform', 'Podium', 'Open', 'Meet', 'PR', 'Trophy'],
-  Transformation: ['Before', 'Mid', 'After', 'Cut', 'Bulk', 'Reps', 'Result'],
-}
-
-const PALETTES: Record<CategoryName, Array<[string, string]>> = {
-  Gym: [
-    ['#2a2d33', '#13151a'],
-    ['#3a3f47', '#1c1e24'],
-    ['#1e2128', '#0a0c10'],
-    ['#4a4e58', '#23262d'],
-    ['#2d3138', '#15171c'],
-    ['#5a3236', '#26161a'],
-  ],
-  Competition: [
-    ['#7a1018', '#2a0508'],
-    ['#3a0408', '#120103'],
-    ['#a01825', '#3a060b'],
-    ['#5a0a14', '#1f0306'],
-    ['#26080c', '#0b0204'],
-    ['#c01a2a', '#52070f'],
-  ],
-  Transformation: [
-    ['#6b4a2a', '#291c10'],
-    ['#8a5f37', '#3a2814'],
-    ['#a87340', '#4a3018'],
-    ['#3a2814', '#150d06'],
-    ['#7a5230', '#2a1b0d'],
-    ['#5a3a20', '#1f140a'],
-  ],
+  Gym: globToSortedUrls(gymGlob),
+  Competition: globToSortedUrls(competitionGlob),
 }
 
 const CATEGORY_META: Record<CategoryName, { desc: string; year: string }> = {
   Gym: { desc: 'Inside the bank. Iron, sweat, mirrors. Daily.', year: '2018 → 2026' },
   Competition: { desc: 'On the platform, under the lights. Our athletes lift.', year: '2019 → 2026' },
-  Transformation: { desc: 'Before. During. After. Months of honest work.', year: '2020 → 2026' },
 }
 
 /* ─── Lightbox w/ prev/next ─────────────────────────────────────────── */
@@ -257,14 +218,12 @@ function Lightbox({
 function Frame({
   src,
   index,
-  tag,
   category,
   onClick,
   desktop,
 }: {
   src: string
   index: number
-  tag: string
   category: string
   onClick: () => void
   desktop: boolean
@@ -353,316 +312,7 @@ function Frame({
         {stamp}
       </div>
 
-      {/* Bottom strip — tag */}
-      <div
-        style={{
-          position: 'absolute',
-          left: 0,
-          right: 0,
-          bottom: 0,
-          padding: '8px 12px',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          fontFamily: 'Inter, system-ui',
-          fontSize: desktop ? 9 : 8.5,
-          letterSpacing: '0.32em',
-          color: hover ? '#fff' : 'rgba(255,255,255,0.62)',
-          textTransform: 'uppercase',
-          zIndex: 2,
-          transition: 'color 220ms ease',
-        }}
-      >
-        <span>/ {tag}</span>
-        <span style={{ color: hover ? RED : 'rgba(255,255,255,0.32)', transition: 'color 220ms ease' }}>↗</span>
-      </div>
     </button>
-  )
-}
-
-/* ─── Scatter canvas (preserved as optional view) ───────────────────── */
-type Item = {
-  id: string
-  x: number
-  y: number
-  w: number
-  h: number
-  rotation: number
-  grad: [string, string]
-  imgSrc: string
-  realIndex: number
-}
-
-function makeRand(seed: number) {
-  let s = seed >>> 0
-  return () => {
-    s = (s * 1664525 + 1013904223) >>> 0
-    return s / 4294967296
-  }
-}
-
-function generateLayout(
-  seed: number,
-  palette: Array<[string, string]>,
-  desktop: boolean,
-  images: string[]
-): Item[] {
-  const rand = makeRand(seed)
-  const cols = desktop ? 7 : 5
-  const rows = desktop ? 5 : 5
-  const count = Math.min(desktop ? 30 : 21, images.length)
-  const positions: Array<[number, number]> = []
-  for (let r = 0; r < rows; r++) for (let c = 0; c < cols; c++) positions.push([c, r])
-  for (let i = positions.length - 1; i > 0; i--) {
-    const j = Math.floor(rand() * (i + 1))
-    ;[positions[i], positions[j]] = [positions[j], positions[i]]
-  }
-  const pick = positions.slice(0, count)
-  const colStep = desktop ? 240 : 175
-  const rowStep = desktop ? 215 : 175
-  const cCenter = desktop ? 3 : 2
-  const rCenter = desktop ? 2 : 2
-  return pick.map(([c, r], i) => {
-    const aspect = [0.72, 1.0, 1.34, 0.85, 1.15][i % 5]
-    const baseW = desktop
-      ? 130 + Math.floor(rand() * 28)
-      : 96 + Math.floor(rand() * 20)
-    const baseH = Math.round(baseW / aspect)
-    const jitter = desktop ? 90 : 60
-    const jx = (rand() - 0.5) * jitter
-    const jy = (rand() - 0.5) * jitter
-    const rotation = (rand() - 0.5) * 6
-    const colorIdx = Math.floor(rand() * palette.length)
-    return {
-      id: `${seed}-${i}`,
-      x: (c - cCenter) * colStep + jx,
-      y: (r - rCenter) * rowStep + jy,
-      w: baseW,
-      h: baseH,
-      rotation,
-      grad: palette[colorIdx],
-      imgSrc: images[i % images.length],
-      realIndex: i % images.length,
-    }
-  })
-}
-
-function distanceScale(distance: number, desktop: boolean) {
-  const FOCUS_RADIUS = desktop ? 380 : 280
-  const t = Math.min(1, distance / FOCUS_RADIUS)
-  const eased = t * t * (3 - 2 * t)
-  return (desktop ? 2.4 : 2.2) - (desktop ? 1.85 : 1.65) * eased
-}
-
-function ScatterCanvas({
-  category,
-  desktop,
-  canvasHeight,
-  onPick,
-}: {
-  category: CategoryName
-  desktop: boolean
-  canvasHeight: number
-  onPick: (realIndex: number) => void
-}) {
-  const items = useMemo(
-    () => generateLayout(7 + CATEGORIES.indexOf(category) * 31, PALETTES[category], desktop, CATEGORY_IMAGES[category]),
-    [category, desktop]
-  )
-
-  const [pan, setPan] = useState({ x: 0, y: 0 })
-  const panRef = useRef({ x: 0, y: 0 })
-  const velRef = useRef({ x: 0, y: 0 })
-  const dragRef = useRef({ active: false, startX: 0, startY: 0, panX: 0, panY: 0 })
-  const hasDraggedRef = useRef(false)
-  const downTargetRef = useRef<HTMLElement | null>(null)
-  const lastMove = useRef({ x: 0, y: 0, t: 0 })
-  const rafRef = useRef(0)
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    cancelAnimationFrame(rafRef.current)
-    velRef.current = { x: 0, y: 0 }
-    panRef.current = { x: 0, y: 0 }
-    setPan({ x: 0, y: 0 })
-  }, [category])
-
-  useEffect(() => () => cancelAnimationFrame(rafRef.current), [])
-
-  useEffect(() => {
-    const el = containerRef.current
-    if (!el || typeof IntersectionObserver === 'undefined') return
-    const io = new IntersectionObserver(([entry]) => {
-      if (!entry.isIntersecting) {
-        cancelAnimationFrame(rafRef.current)
-        velRef.current = { x: 0, y: 0 }
-      }
-    })
-    io.observe(el)
-    return () => io.disconnect()
-  }, [])
-
-  const onPointerDown = (e: React.PointerEvent<HTMLDivElement>) => {
-    cancelAnimationFrame(rafRef.current)
-    velRef.current = { x: 0, y: 0 }
-    hasDraggedRef.current = false
-    downTargetRef.current = e.target as HTMLElement
-    dragRef.current = {
-      active: true,
-      startX: e.clientX,
-      startY: e.clientY,
-      panX: panRef.current.x,
-      panY: panRef.current.y,
-    }
-    lastMove.current = { x: e.clientX, y: e.clientY, t: performance.now() }
-    e.currentTarget.setPointerCapture(e.pointerId)
-  }
-
-  const onPointerMove = (e: React.PointerEvent<HTMLDivElement>) => {
-    const d = dragRef.current
-    if (!d.active) return
-    const dx = e.clientX - d.startX
-    const dy = e.clientY - d.startY
-    if (Math.hypot(dx, dy) > 5) hasDraggedRef.current = true
-    const nx = d.panX + dx
-    const ny = d.panY + dy
-    panRef.current = { x: nx, y: ny }
-    setPan({ x: nx, y: ny })
-    const now = performance.now()
-    const dt = now - lastMove.current.t || 16
-    velRef.current = {
-      x: ((e.clientX - lastMove.current.x) / dt) * 16,
-      y: ((e.clientY - lastMove.current.y) / dt) * 16,
-    }
-    lastMove.current = { x: e.clientX, y: e.clientY, t: now }
-  }
-
-  const onPointerUp = (e: React.PointerEvent<HTMLDivElement>) => {
-    if (!dragRef.current.active) return
-    dragRef.current.active = false
-    try { e.currentTarget.releasePointerCapture(e.pointerId) } catch { /* noop */ }
-
-    if (!hasDraggedRef.current && downTargetRef.current) {
-      const card = downTargetRef.current.closest('[data-real-index]') as HTMLElement | null
-      const idx = card?.dataset.realIndex
-      if (idx !== undefined) onPick(parseInt(idx, 10))
-    }
-
-    const decay = 0.93
-    const tick = () => {
-      velRef.current.x *= decay
-      velRef.current.y *= decay
-      const np = {
-        x: panRef.current.x + velRef.current.x,
-        y: panRef.current.y + velRef.current.y,
-      }
-      panRef.current = np
-      setPan(np)
-      if (Math.hypot(velRef.current.x, velRef.current.y) > 0.25) {
-        rafRef.current = requestAnimationFrame(tick)
-      }
-    }
-    rafRef.current = requestAnimationFrame(tick)
-  }
-
-  return (
-    <div
-      ref={containerRef}
-      onPointerDown={onPointerDown}
-      onPointerMove={onPointerMove}
-      onPointerUp={onPointerUp}
-      onPointerCancel={onPointerUp}
-      style={{
-        position: 'relative',
-        height: canvasHeight,
-        width: '100%',
-        overflow: 'hidden',
-        userSelect: 'none',
-        touchAction: 'none',
-        cursor: dragRef.current.active ? 'grabbing' : 'grab',
-        border: '1px solid rgba(255,255,255,0.08)',
-        background:
-          'radial-gradient(80% 50% at 50% 50%, rgba(225,10,31,0.05) 0%, rgba(0,0,0,0) 70%), #0a0a0c',
-      }}
-    >
-      <div style={{ position: 'absolute', inset: 0 }}>
-        {items.map((it) => {
-          const ex = it.x + pan.x
-          const ey = it.y + pan.y
-          const dist = Math.hypot(ex, ey)
-          const scale = distanceScale(dist, desktop)
-          const opacity = Math.max(0.45, 1 - (dist - 200) / 800)
-          return (
-            <div
-              key={it.id}
-              data-real-index={it.realIndex}
-              style={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                width: it.w,
-                height: it.h,
-                marginLeft: -it.w / 2,
-                marginTop: -it.h / 2,
-                transform: `translate3d(${ex}px, ${ey}px, 0) rotate(${it.rotation}deg) scale(${scale})`,
-                transformOrigin: 'center center',
-                transition: dragRef.current.active
-                  ? 'none'
-                  : 'transform 220ms cubic-bezier(0.22,1,0.36,1)',
-                willChange: 'transform',
-                opacity,
-                zIndex: Math.round(1000 - dist),
-                border: `1px solid rgba(255,255,255,0.1)`,
-                overflow: 'hidden',
-                boxShadow: '0 6px 20px rgba(0,0,0,0.55)',
-                background: `linear-gradient(135deg, ${it.grad[0]}, ${it.grad[1]})`,
-              }}
-            >
-              <img
-                src={it.imgSrc}
-                alt=""
-                draggable={false}
-                style={{
-                  width: '100%',
-                  height: '100%',
-                  objectFit: 'cover',
-                  userSelect: 'none',
-                }}
-              />
-            </div>
-          )
-        })}
-      </div>
-
-      <div
-        style={{
-          position: 'absolute',
-          inset: 0,
-          pointerEvents: 'none',
-          background:
-            'radial-gradient(120% 100% at 50% 50%, rgba(10,10,13,0) 55%, rgba(10,10,13,0.78) 100%)',
-        }}
-      />
-
-      <div
-        style={{
-          position: 'absolute',
-          left: '50%',
-          bottom: 16,
-          transform: 'translateX(-50%)',
-          fontFamily: 'Inter, system-ui',
-          fontSize: 9.5,
-          letterSpacing: '0.32em',
-          textTransform: 'uppercase',
-          color: 'rgba(255,255,255,0.55)',
-          padding: '6px 14px',
-          border: `1px solid ${RED}`,
-          background: 'rgba(10,10,13,0.6)',
-        }}
-      >
-        Drag · Tap to open
-      </div>
-    </div>
   )
 }
 
@@ -820,60 +470,15 @@ function CategoryNav({
   )
 }
 
-/* ─── View toggle (Sheet | Scatter) ────────────────────────────────── */
-function ViewToggle({
-  view,
-  setView,
-}: {
-  view: 'reel' | 'scatter'
-  setView: (v: 'reel' | 'scatter') => void
-}) {
-  const opts: Array<'reel' | 'scatter'> = ['reel', 'scatter']
-  return (
-    <div
-      style={{
-        display: 'inline-flex',
-        border: `1px solid ${RED}`,
-        fontFamily: 'Freshman, serif',
-        fontSize: 10,
-        letterSpacing: '0.28em',
-        textTransform: 'uppercase',
-      }}
-    >
-      {opts.map((o) => {
-        const active = view === o
-        return (
-          <button
-            key={o}
-            onClick={() => setView(o)}
-            style={{
-              background: active ? RED : 'transparent',
-              color: active ? '#fff' : RED,
-              border: 'none',
-              padding: '8px 16px',
-              cursor: 'pointer',
-              transition: 'background 200ms ease, color 200ms ease',
-            }}
-          >
-            {o}
-          </button>
-        )
-      })}
-    </div>
-  )
-}
-
 /* ─── Main ──────────────────────────────────────────────────────────── */
 export default function GallerySection() {
   const [category, setCategory] = useState(0)
-  const [view, setView] = useState<'reel' | 'scatter'>('reel')
   const [phase, setPhase] = useState<'idle' | 'out' | 'in'>('idle')
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null)
   const isDesktop = useDesktop()
 
   const catName = CATEGORIES[category]
   const images = CATEGORY_IMAGES[catName]
-  const tagPool = TAG_POOLS[catName]
   const meta = CATEGORY_META[catName]
 
   const onChangeCategory = (i: number) => {
@@ -1185,38 +790,27 @@ export default function GallerySection() {
                     {meta.desc}
                   </p>
                 </div>
-                <ViewToggle view={view} setView={setView} />
               </div>
 
               {/* Body */}
-              {view === 'reel' ? (
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(4, 1fr)',
-                    gap: 14,
-                  }}
-                >
-                  {images.map((src, i) => (
-                    <Frame
-                      key={src + i}
-                      src={src}
-                      index={i}
-                      tag={tagPool[i % tagPool.length]}
-                      category={catName}
-                      onClick={() => openAt(i)}
-                      desktop
-                    />
-                  ))}
-                </div>
-              ) : (
-                <ScatterCanvas
-                  category={catName}
-                  desktop
-                  canvasHeight={680}
-                  onPick={openAt}
-                />
-              )}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(4, 1fr)',
+                  gap: 14,
+                }}
+              >
+                {images.map((src, i) => (
+                  <Frame
+                    key={src + i}
+                    src={src}
+                    index={i}
+                    category={catName}
+                    onClick={() => openAt(i)}
+                    desktop
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
@@ -1389,7 +983,6 @@ export default function GallerySection() {
                   {catName}.
                 </div>
               </div>
-              <ViewToggle view={view} setView={setView} />
             </div>
 
             <p
@@ -1404,34 +997,24 @@ export default function GallerySection() {
               {meta.desc}
             </p>
 
-            {view === 'reel' ? (
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(2, 1fr)',
-                  gap: 10,
-                }}
-              >
-                {images.map((src, i) => (
-                  <Frame
-                    key={src + i}
-                    src={src}
-                    index={i}
-                    tag={tagPool[i % tagPool.length]}
-                    category={catName}
-                    onClick={() => openAt(i)}
-                    desktop={false}
-                  />
-                ))}
-              </div>
-            ) : (
-              <ScatterCanvas
-                category={catName}
-                desktop={false}
-                canvasHeight={520}
-                onPick={openAt}
-              />
-            )}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(2, 1fr)',
+                gap: 10,
+              }}
+            >
+              {images.map((src, i) => (
+                <Frame
+                  key={src + i}
+                  src={src}
+                  index={i}
+                  category={catName}
+                  onClick={() => openAt(i)}
+                  desktop={false}
+                />
+              ))}
+            </div>
           </div>
         </div>
 
