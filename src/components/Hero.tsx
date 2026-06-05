@@ -75,7 +75,26 @@ function CornerTick({ pos }: { pos: 'tl' | 'tr' | 'bl' | 'br' }) {
 }
 
 /* ─── Mobile (preserved exactly) ──────────────────────────────────── */
+function useScrollAwayFade() {
+  const [y, setY] = useState(0)
+  useEffect(() => {
+    const onScroll = () => setY(window.scrollY)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+  const p = Math.min(1, Math.max(0, (y - window.innerHeight * 0.25) / (window.innerHeight * 0.4)))
+  const style: React.CSSProperties = {
+    opacity: 1 - p,
+    transform: `translateY(${p * -10}px)`,
+    transition: 'opacity 220ms ease, transform 220ms ease',
+    pointerEvents: p > 0.9 ? 'none' : 'auto',
+  }
+  return style
+}
+
 function MobileHero({ onCta, booted }: Props) {
+  const awayFade = useScrollAwayFade()
   const videoRef = useRef<HTMLVideoElement>(null)
 
   useEffect(() => {
@@ -104,7 +123,7 @@ function MobileHero({ onCta, booted }: Props) {
           muted
           playsInline
           preload="metadata"
-          poster="/hero-poster.jpg"
+          poster="/hero-poster.webp"
           aria-hidden="true"
           src="/hero.mp4"
           style={{
@@ -147,6 +166,7 @@ function MobileHero({ onCta, booted }: Props) {
           margin: '0 auto',
           boxSizing: 'border-box',
           alignItems: 'flex-start',
+          ...awayFade,
         }}
       >
         <div
@@ -259,6 +279,22 @@ function DesktopHero({ onCta, booted }: Props) {
   const sectionRef = useRef<HTMLElement>(null)
   const inView = useInView(sectionRef, '100px')
   const [mounted, setMounted] = useState(false)
+  const [awayY, setAwayY] = useState(0)
+
+  useEffect(() => {
+    const onScroll = () => setAwayY(window.scrollY)
+    window.addEventListener('scroll', onScroll, { passive: true })
+    onScroll()
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
+  const awayProgress = Math.min(1, Math.max(0, (awayY - window.innerHeight * 0.25) / (window.innerHeight * 0.4)))
+  const awayFade: React.CSSProperties = {
+    opacity: 1 - awayProgress,
+    transform: `translateY(${awayProgress * -12}px)`,
+    transition: 'opacity 220ms ease, transform 220ms ease',
+    pointerEvents: awayProgress > 0.9 ? 'none' : 'auto',
+  }
 
   useEffect(() => {
     if (!booted || !videoRef.current) return
@@ -324,7 +360,7 @@ function DesktopHero({ onCta, booted }: Props) {
         muted
         playsInline
         preload="metadata"
-        poster="/hero-poster.jpg"
+        poster="/hero-poster.webp"
         aria-hidden="true"
         src="/hero.mp4"
         style={{
@@ -515,43 +551,12 @@ function DesktopHero({ onCta, booted }: Props) {
           pointerEvents: 'none',
         }}
       >
-        {/* Black offset shadow slab — mono chrome strip */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 14,
-            top: 18,
-            ...slabInDelay,
-            background: '#0a0a0d',
-            border: '1px solid rgba(255,255,255,0.14)',
-            padding: '14px clamp(40px, 4vw, 64px) 14px clamp(56px, 6vw, 88px)',
-            display: 'inline-flex',
-            alignItems: 'center',
-            gap: 18,
-            fontFamily: MONO,
-            fontSize: 12,
-            letterSpacing: '0.34em',
-            textTransform: 'uppercase',
-            color: 'rgba(255,255,255,0.78)',
-            whiteSpace: 'nowrap',
-            zIndex: 0,
-          }}
-        >
-          <span style={{ color: RED }}>/ 001</span>
-          <span>Heavy Iron</span>
-          <span style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
-          <span>No Lines</span>
-          <span style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
-          <span>Kandy 7.29°N</span>
-          <span style={{ color: 'rgba(255,255,255,0.3)' }}>·</span>
-          <span style={{ color: PHOSPHOR }}>● Open Now</span>
-        </div>
-
         {/* Primary red slab w/ headline */}
         <div
           style={{
             position: 'relative',
             ...slabIn,
+            ...awayFade,
             background: RED,
             padding:
               'clamp(22px, 2.4vw, 36px) clamp(48px, 5vw, 96px) clamp(22px, 2.4vw, 36px) clamp(56px, 6vw, 96px)',
@@ -616,6 +621,7 @@ function DesktopHero({ onCta, booted }: Props) {
           alignItems: 'stretch',
           gap: 14,
           ...fadeIn(700),
+          ...awayFade,
         }}
       >
         <a
@@ -691,6 +697,7 @@ function DesktopHero({ onCta, booted }: Props) {
           fontFamily: MONO,
           color: '#fff',
           ...fadeIn(800),
+          ...awayFade,
         }}
       >
         <div
