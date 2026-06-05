@@ -2,28 +2,28 @@ import { useEffect, useRef, useState } from 'react'
 
 const RED = '#E10A1F'
 const BG = '#0a0a0d'
-const PHOTO = '/coach-rahul.jpeg'
+const PHOTO = '/coach-rahul.webp'
+const VIDEO = '/hero.mp4'
 const MONO = "'JetBrains Mono', ui-monospace, Menlo, monospace"
 
 const COACH = {
   name: 'RAHUL',
-  surname: '',
   title: 'Bodybuilding',
   years: '05',
   bio: 'National-level bodybuilder turned coach. Builds champions from raw iron.',
   cred: 'NATIONAL',
 }
 
-const LEDGER = [
-  { n: '01', k: 'FLOOR', v: 'Strength wing — daily 05:00 / 22:00' },
-  { n: '02', k: 'IRON', v: 'Hypertrophy, raw lifts, structural work' },
-  { n: '03', k: 'PREP', v: 'Stage prep, posing rounds, contest peak' },
+const STATS: { k: string; v: string }[] = [
+  { k: 'FLOOR', v: '05:00 / 22:00' },
+  { k: 'IRON', v: 'Raw lifts' },
+  { k: 'PREP', v: 'Stage peak' },
 ]
 
 const GRAIN_BG =
   "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>\")"
 
-function useReveal<T extends HTMLElement>(threshold = 0.12) {
+function useReveal<T extends HTMLElement>(threshold = 0.18) {
   const ref = useRef<T | null>(null)
   const [vis, setVis] = useState(false)
   useEffect(() => {
@@ -46,16 +46,93 @@ function useReveal<T extends HTMLElement>(threshold = 0.12) {
   return { ref, vis }
 }
 
+function useInViewVideo() {
+  const sectionRef = useRef<HTMLDivElement | null>(null)
+  const videoRef = useRef<HTMLVideoElement | null>(null)
+  useEffect(() => {
+    const sec = sectionRef.current
+    const vid = videoRef.current
+    if (!sec || !vid) return
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) vid.play().catch(() => {})
+          else vid.pause()
+        })
+      },
+      { threshold: 0.1 }
+    )
+    io.observe(sec)
+    return () => io.disconnect()
+  }, [])
+  return { sectionRef, videoRef }
+}
+
+/* ────────────────────── SHARED BG ────────────────────── */
+
+function VideoBackdrop({ videoRef }: { videoRef: React.RefObject<HTMLVideoElement> }) {
+  return (
+    <>
+      <video
+        ref={videoRef}
+        src={VIDEO}
+        muted
+        loop
+        playsInline
+        preload="metadata"
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          width: '100%',
+          height: '100%',
+          objectFit: 'cover',
+          filter: 'grayscale(1) contrast(1.25) brightness(0.45) blur(18px)',
+          opacity: 0.55,
+          transform: 'scale(1.1)',
+          zIndex: 0,
+        }}
+      />
+      {/* heavy dim + red wash */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background:
+            'radial-gradient(ellipse at 75% 50%, rgba(225,10,31,0.12) 0%, rgba(10,10,13,0) 55%), linear-gradient(180deg, rgba(10,10,13,0.45) 0%, rgba(10,10,13,0.65) 100%)',
+          zIndex: 0,
+        }}
+      />
+      {/* grain */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.28,
+          mixBlendMode: 'overlay',
+          pointerEvents: 'none',
+          zIndex: 0,
+          backgroundImage: GRAIN_BG,
+        }}
+      />
+    </>
+  )
+}
+
 /* ────────────────────── DESKTOP ────────────────────── */
 
 function DesktopCoach() {
-  const photoR = useReveal<HTMLDivElement>()
-  const copyR = useReveal<HTMLDivElement>(0.2)
+  const { sectionRef, videoRef } = useInViewVideo()
+  const copyR = useReveal<HTMLDivElement>(0.22)
+  const photoR = useReveal<HTMLDivElement>(0.22)
 
   return (
     <section
+      ref={sectionRef}
       style={{
-        background: BG,
+        background: 'transparent',
         color: '#fff',
         position: 'relative',
         overflow: 'hidden',
@@ -64,13 +141,26 @@ function DesktopCoach() {
         marginRight: 'calc(50% - 50vw)',
       }}
     >
+      {/* blur + dim layer over video showing through */}
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backdropFilter: 'blur(18px) brightness(0.55) grayscale(0.6)',
+          WebkitBackdropFilter: 'blur(18px) brightness(0.55) grayscale(0.6)',
+          background:
+            'radial-gradient(ellipse at 75% 50%, rgba(225,10,31,0.10) 0%, rgba(10,10,13,0) 55%), linear-gradient(180deg, rgba(10,10,13,0.40) 0%, rgba(10,10,13,0.60) 100%)',
+          zIndex: 0,
+        }}
+      />
       {/* grain */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: 0.32,
+          opacity: 0.28,
           mixBlendMode: 'overlay',
           pointerEvents: 'none',
           zIndex: 0,
@@ -89,27 +179,29 @@ function DesktopCoach() {
           fontSize: 11,
           letterSpacing: '0.32em',
           textTransform: 'uppercase',
-          padding: '11px 80px',
+          padding: '10px 64px 10px 320px',
+          height: 40,
+          boxSizing: 'border-box',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
         }}
       >
         <span>§ 04 — On the Floor</span>
-        <span style={{ opacity: 0.85 }}>One Coach · No Roster · No Tier</span>
+        <span style={{ opacity: 0.85 }}>One Coach · No Roster</span>
         <span>Walk on · 24 / 7</span>
       </div>
 
-      {/* COACH watermark */}
+      {/* watermark */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          top: '34%',
-          left: '-2vw',
+          bottom: -40,
+          right: -20,
           fontFamily: 'Freshman, serif',
-          fontSize: 'clamp(180px, 22vw, 360px)',
-          color: 'rgba(225,10,31,0.045)',
+          fontSize: 'clamp(160px, 18vw, 280px)',
+          color: 'rgba(225,10,31,0.025)',
           whiteSpace: 'nowrap',
           letterSpacing: '0.04em',
           userSelect: 'none',
@@ -121,261 +213,229 @@ function DesktopCoach() {
         COACH
       </div>
 
-      {/* MAIN GRID */}
+      {/* MAIN compact band */}
       <div
         style={{
           position: 'relative',
           zIndex: 1,
           display: 'grid',
-          gridTemplateColumns: '1.25fr 1fr',
-          height: 'calc(100vh - 41px)',
-          minHeight: 720,
+          gridTemplateColumns: '420px 1fr',
+          gap: 'clamp(48px, 5.5vw, 96px)',
+          padding: 'clamp(72px, 7vw, 112px) clamp(64px, 6vw, 112px) clamp(56px, 5vw, 80px)',
+          alignItems: 'start',
+          maxWidth: 1480,
+          margin: '0 auto',
+          minHeight: 'calc(70vh - 40px)',
+          boxSizing: 'border-box',
         }}
       >
-        {/* ── LEFT: photo bleed ── */}
+        {/* photo cutout */}
         <div
           ref={photoR.ref}
           style={{
             position: 'relative',
-            overflow: 'hidden',
+            width: '100%',
+            aspectRatio: '4 / 5',
             opacity: photoR.vis ? 1 : 0,
-            transform: photoR.vis ? 'scale(1)' : 'scale(1.04)',
-            transition: 'opacity 1100ms cubic-bezier(.2,.7,.2,1), transform 1400ms cubic-bezier(.2,.7,.2,1)',
+            transform: photoR.vis ? 'translateY(0) scale(1)' : 'translateY(20px) scale(0.98)',
+            transition: 'opacity 900ms cubic-bezier(.2,.7,.2,1), transform 1100ms cubic-bezier(.2,.7,.2,1)',
           }}
         >
+          {/* red plate — offset down+right of photo */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: '14px -14px -14px 14px',
+              background: RED,
+              zIndex: 0,
+            }}
+          />
           <img
             src={PHOTO}
             alt="Coach Rahul"
             style={{
-              position: 'absolute',
-              inset: 0,
+              position: 'relative',
+              zIndex: 1,
               width: '100%',
               height: '100%',
               objectFit: 'cover',
-              objectPosition: 'center center',
+              objectPosition: 'center 22%',
               display: 'block',
-              filter: 'contrast(1.08) saturate(0.78) brightness(0.92)',
+              filter: 'contrast(1.08) saturate(0.78) brightness(0.94)',
             }}
           />
-
-          {/* deep vignette right edge -> seams into type column */}
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(90deg, rgba(10,10,13,0) 55%, rgba(10,10,13,0.55) 82%, rgba(10,10,13,1) 100%), linear-gradient(180deg, rgba(10,10,13,0.45) 0%, rgba(10,10,13,0) 28%, rgba(10,10,13,0) 65%, rgba(10,10,13,0.7) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-
-          {/* photo grain overlay */}
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              inset: 0,
-              opacity: 0.45,
-              mixBlendMode: 'overlay',
-              pointerEvents: 'none',
-              backgroundImage: GRAIN_BG,
-            }}
-          />
-
-          {/* top-left bracket chrome */}
+          {/* tag */}
           <div
             style={{
               position: 'absolute',
-              top: 36,
-              left: 36,
+              zIndex: 2,
+              left: 12,
+              bottom: 12,
               fontFamily: MONO,
-              fontSize: 10,
-              letterSpacing: '0.32em',
-              color: 'rgba(255,255,255,0.75)',
-              display: 'flex',
-              alignItems: 'center',
-              gap: 10,
+              fontSize: 9.5,
+              letterSpacing: '0.3em',
+              color: '#fff',
+              background: 'rgba(10,10,13,0.78)',
+              padding: '6px 10px',
               fontWeight: 700,
             }}
           >
-            <span style={{ color: RED }}>●</span>
-            <span>FRAME / SUBJ_01</span>
-          </div>
-
-          {/* bottom-left frame caption */}
-          <div
-            style={{
-              position: 'absolute',
-              left: 36,
-              bottom: 32,
-              fontFamily: MONO,
-              fontSize: 10,
-              letterSpacing: '0.28em',
-              color: 'rgba(255,255,255,0.55)',
-              display: 'flex',
-              flexDirection: 'column',
-              gap: 4,
-              fontWeight: 700,
-            }}
-          >
-            <span>RAHUL · GLORIOUS FITNESS · KANDY</span>
-            <span style={{ color: 'rgba(255,255,255,0.32)' }}>SHOT 01 / 01 — UNRETOUCHED</span>
-          </div>
-
-          {/* rotated side label inside photo */}
-          <div
-            aria-hidden
-            style={{
-              position: 'absolute',
-              right: 40,
-              top: '50%',
-              transform: 'translateY(-50%) rotate(90deg)',
-              transformOrigin: 'center',
-              fontFamily: MONO,
-              fontSize: 10,
-              letterSpacing: '0.4em',
-              color: 'rgba(255,255,255,0.5)',
-              whiteSpace: 'nowrap',
-              fontWeight: 700,
-            }}
-          >
-            § 04 / HEAD COACH / SOLE
+            ● SUBJ_01 / RAHUL
           </div>
         </div>
 
-        {/* ── RIGHT: type column ── */}
-        <div
-          ref={copyR.ref}
-          style={{
-            padding: '88px clamp(48px, 5vw, 88px) 80px clamp(40px, 4vw, 64px)',
-            display: 'flex',
-            flexDirection: 'column',
-            justifyContent: 'space-between',
-            position: 'relative',
-          }}
-        >
-          {/* eyebrow */}
-          <div>
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 12,
-                marginBottom: 22,
-                opacity: copyR.vis ? 1 : 0,
-                transform: copyR.vis ? 'translateY(0)' : 'translateY(-8px)',
-                transition: 'opacity 600ms, transform 600ms',
-              }}
-            >
-              <span style={{ width: 32, height: 1, background: RED }} />
-              <span
-                style={{
-                  fontFamily: 'Freshman, serif',
-                  fontSize: 11,
-                  letterSpacing: '0.32em',
-                  color: RED,
-                  textTransform: 'uppercase',
-                }}
-              >
-                [ 004 / Coach ]
-              </span>
-            </div>
-
-            {/* big name */}
-            <h2
-              style={{
-                fontFamily: 'Freshman, serif',
-                fontSize: 'clamp(96px, 11vw, 184px)',
-                lineHeight: 0.84,
-                margin: 0,
-                letterSpacing: '-0.01em',
-                color: '#fff',
-                opacity: copyR.vis ? 1 : 0,
-                transform: copyR.vis ? 'translateY(0)' : 'translateY(14px)',
-                transition: 'opacity 800ms 100ms, transform 800ms 100ms cubic-bezier(.2,.7,.2,1)',
-              }}
-            >
-              {COACH.name}
-              <span style={{ color: RED }}>.</span>
-            </h2>
-
-            {/* spec line */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 14,
-                marginTop: 24,
-                paddingTop: 14,
-                borderTop: '1px solid rgba(255,255,255,0.12)',
-                fontFamily: MONO,
-                fontSize: 10.5,
-                letterSpacing: '0.28em',
-                color: 'rgba(255,255,255,0.62)',
-                fontWeight: 700,
-                opacity: copyR.vis ? 1 : 0,
-                transition: 'opacity 700ms 240ms',
-              }}
-            >
-              <span style={{ color: '#fff' }}>{COACH.title.toUpperCase()}</span>
-              <span style={{ opacity: 0.3 }}>/</span>
-              <span>
-                {COACH.years} YRS
-              </span>
-              <span style={{ opacity: 0.3 }}>/</span>
-              <span style={{ color: RED }}>{COACH.cred}</span>
-            </div>
-
-            {/* bio */}
-            <p
-              style={{
-                fontFamily: 'Inter, system-ui',
-                fontSize: 17,
-                lineHeight: 1.55,
-                color: 'rgba(255,255,255,0.78)',
-                margin: '36px 0 0',
-                maxWidth: 460,
-                opacity: copyR.vis ? 1 : 0,
-                transform: copyR.vis ? 'translateY(0)' : 'translateY(10px)',
-                transition: 'opacity 800ms 320ms, transform 800ms 320ms',
-              }}
-            >
-              {COACH.bio}
-            </p>
-          </div>
-
-          {/* ledger bottom */}
+        {/* type */}
+        <div ref={copyR.ref}>
           <div
             style={{
-              marginTop: 64,
-              borderTop: `1px solid ${RED}`,
-              paddingTop: 4,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 12,
+              marginBottom: 18,
               opacity: copyR.vis ? 1 : 0,
-              transform: copyR.vis ? 'translateY(0)' : 'translateY(12px)',
-              transition: 'opacity 800ms 440ms, transform 800ms 440ms',
+              transform: copyR.vis ? 'translateY(0)' : 'translateY(-6px)',
+              transition: 'opacity 600ms, transform 600ms',
             }}
           >
-            {LEDGER.map((row, i) => (
-              <LedgerRow key={row.n} {...row} last={i === LEDGER.length - 1} />
-            ))}
-
-            {/* sign-off */}
-            <div
+            <span style={{ width: 32, height: 1, background: RED }} />
+            <span
               style={{
-                marginTop: 28,
-                display: 'flex',
-                justifyContent: 'space-between',
-                fontFamily: MONO,
-                fontSize: 10,
-                letterSpacing: '0.28em',
-                color: 'rgba(255,255,255,0.42)',
-                fontWeight: 700,
+                fontFamily: 'Freshman, serif',
+                fontSize: 11,
+                letterSpacing: '0.32em',
+                color: RED,
+                textTransform: 'uppercase',
               }}
             >
-              <span>FIND HIM UNDER THE SQUAT RACK</span>
-              <span style={{ color: RED }}>● ON DUTY</span>
-            </div>
+              [ 004 / Coach ]
+            </span>
+          </div>
+
+          <h2
+            style={{
+              fontFamily: 'Freshman, serif',
+              fontSize: 'clamp(72px, 8.4vw, 140px)',
+              lineHeight: 0.86,
+              margin: 0,
+              letterSpacing: '-0.01em',
+              color: '#fff',
+              opacity: copyR.vis ? 1 : 0,
+              transform: copyR.vis ? 'translateY(0)' : 'translateY(14px)',
+              transition: 'opacity 800ms 80ms, transform 800ms 80ms cubic-bezier(.2,.7,.2,1)',
+            }}
+          >
+            {COACH.name}
+            <span style={{ color: RED }}>.</span>
+          </h2>
+
+          <div
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 14,
+              marginTop: 18,
+              paddingTop: 12,
+              borderTop: '1px solid rgba(255,255,255,0.14)',
+              fontFamily: MONO,
+              fontSize: 10.5,
+              letterSpacing: '0.28em',
+              color: 'rgba(255,255,255,0.62)',
+              fontWeight: 700,
+              opacity: copyR.vis ? 1 : 0,
+              transition: 'opacity 700ms 220ms',
+            }}
+          >
+            <span style={{ color: '#fff' }}>{COACH.title.toUpperCase()}</span>
+            <span style={{ opacity: 0.3 }}>/</span>
+            <span>{COACH.years} YRS</span>
+            <span style={{ opacity: 0.3 }}>/</span>
+            <span style={{ color: RED }}>{COACH.cred}</span>
+          </div>
+
+          <p
+            style={{
+              fontFamily: 'Inter, system-ui',
+              fontSize: 16,
+              lineHeight: 1.55,
+              color: 'rgba(255,255,255,0.82)',
+              margin: '22px 0 0',
+              maxWidth: 460,
+              opacity: copyR.vis ? 1 : 0,
+              transform: copyR.vis ? 'translateY(0)' : 'translateY(10px)',
+              transition: 'opacity 800ms 300ms, transform 800ms 300ms',
+            }}
+          >
+            {COACH.bio}
+          </p>
+
+          {/* stat pills — 3-in-row */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              gap: 10,
+              marginTop: 28,
+              maxWidth: 560,
+              opacity: copyR.vis ? 1 : 0,
+              transform: copyR.vis ? 'translateY(0)' : 'translateY(10px)',
+              transition: 'opacity 800ms 420ms, transform 800ms 420ms',
+            }}
+          >
+            {STATS.map((s) => (
+              <div
+                key={s.k}
+                style={{
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  background: 'rgba(10,10,13,0.45)',
+                  backdropFilter: 'blur(6px)',
+                  padding: '10px 12px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 4,
+                  fontFamily: MONO,
+                  fontWeight: 700,
+                  minWidth: 0,
+                }}
+              >
+                <span style={{ color: RED, fontSize: 9.5, letterSpacing: '0.28em' }}>
+                  / {s.k}
+                </span>
+                <span
+                  style={{
+                    color: 'rgba(255,255,255,0.86)',
+                    fontSize: 11,
+                    letterSpacing: '0.14em',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  {s.v}
+                </span>
+              </div>
+            ))}
+          </div>
+
+          {/* sign-off */}
+          <div
+            style={{
+              marginTop: 28,
+              paddingTop: 14,
+              borderTop: `1px solid ${RED}`,
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontFamily: MONO,
+              fontSize: 10,
+              letterSpacing: '0.28em',
+              color: 'rgba(255,255,255,0.5)',
+              fontWeight: 700,
+              opacity: copyR.vis ? 1 : 0,
+              transition: 'opacity 800ms 540ms',
+            }}
+          >
+            <span>FIND HIM UNDER THE SQUAT RACK</span>
+            <span style={{ color: RED }}>● ON DUTY</span>
           </div>
         </div>
       </div>
@@ -383,82 +443,18 @@ function DesktopCoach() {
   )
 }
 
-function LedgerRow({
-  n,
-  k,
-  v,
-  last,
-}: {
-  n: string
-  k: string
-  v: string
-  last?: boolean
-}) {
-  const [hovered, setHovered] = useState(false)
-  return (
-    <div
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '52px 92px 1fr',
-        gap: 18,
-        padding: '16px 0',
-        borderBottom: last ? 'none' : '1px solid rgba(255,255,255,0.08)',
-        alignItems: 'baseline',
-        cursor: 'default',
-        transition: 'transform 280ms cubic-bezier(.22,1,.36,1)',
-        transform: hovered ? 'translateX(6px)' : 'translateX(0)',
-      }}
-    >
-      <span
-        style={{
-          fontFamily: 'Freshman, serif',
-          fontSize: 28,
-          color: hovered ? RED : '#fff',
-          lineHeight: 1,
-          letterSpacing: '0.02em',
-          transition: 'color 240ms',
-        }}
-      >
-        {n}
-      </span>
-      <span
-        style={{
-          fontFamily: MONO,
-          fontSize: 10,
-          letterSpacing: '0.28em',
-          color: hovered ? RED : 'rgba(255,255,255,0.55)',
-          fontWeight: 700,
-          transition: 'color 240ms',
-        }}
-      >
-        / {k}
-      </span>
-      <span
-        style={{
-          fontFamily: 'Inter, system-ui',
-          fontSize: 14,
-          lineHeight: 1.5,
-          color: 'rgba(255,255,255,0.72)',
-        }}
-      >
-        {v}
-      </span>
-    </div>
-  )
-}
-
 /* ────────────────────── MOBILE ────────────────────── */
 
 function MobileCoach() {
-  const photoR = useReveal<HTMLDivElement>()
+  const { sectionRef, videoRef } = useInViewVideo()
   const copyR = useReveal<HTMLDivElement>(0.18)
+  const photoR = useReveal<HTMLDivElement>()
 
   return (
     <section
+      ref={sectionRef}
       style={{
-        background: BG,
+        background: 'transparent',
         color: '#fff',
         position: 'relative',
         overflow: 'hidden',
@@ -466,13 +462,25 @@ function MobileCoach() {
         marginLeft: 'calc(50% - 50vw)',
       }}
     >
-      {/* grain */}
+      {/* blur + dim layer over video showing through */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
           inset: 0,
-          opacity: 0.32,
+          backdropFilter: 'blur(14px) brightness(0.55) grayscale(0.6)',
+          WebkitBackdropFilter: 'blur(14px) brightness(0.55) grayscale(0.6)',
+          background:
+            'linear-gradient(180deg, rgba(10,10,13,0.45) 0%, rgba(10,10,13,0.65) 100%)',
+          zIndex: 0,
+        }}
+      />
+      <div
+        aria-hidden
+        style={{
+          position: 'absolute',
+          inset: 0,
+          opacity: 0.28,
           mixBlendMode: 'overlay',
           pointerEvents: 'none',
           zIndex: 0,
@@ -500,16 +508,15 @@ function MobileCoach() {
         <span style={{ opacity: 0.85 }}>One on the Floor</span>
       </div>
 
-      {/* watermark */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          top: 220,
-          right: '-14vw',
+          bottom: -20,
+          right: '-12vw',
           fontFamily: 'Freshman, serif',
-          fontSize: 'clamp(180px, 60vw, 320px)',
-          color: 'rgba(225,10,31,0.05)',
+          fontSize: 'clamp(140px, 48vw, 240px)',
+          color: 'rgba(225,10,31,0.06)',
           whiteSpace: 'nowrap',
           letterSpacing: '0.04em',
           userSelect: 'none',
@@ -521,110 +528,59 @@ function MobileCoach() {
         COACH
       </div>
 
-      {/* photo full-bleed */}
       <div
-        ref={photoR.ref}
         style={{
           position: 'relative',
           zIndex: 1,
-          width: '100%',
-          aspectRatio: '4 / 5',
-          overflow: 'hidden',
-          opacity: photoR.vis ? 1 : 0,
-          transform: photoR.vis ? 'scale(1)' : 'scale(1.05)',
-          transition: 'opacity 1100ms, transform 1400ms cubic-bezier(.2,.7,.2,1)',
+          padding: '40px 22px 48px',
+          display: 'flex',
+          flexDirection: 'column',
+          gap: 0,
         }}
       >
-        <img
-          src={PHOTO}
-          alt="Coach Rahul"
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            objectPosition: 'center 20%',
-            display: 'block',
-            filter: 'contrast(1.08) saturate(0.78) brightness(0.92)',
-          }}
-        />
+        {/* photo — full-bleed */}
         <div
-          aria-hidden
+          ref={photoR.ref}
           style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(180deg, rgba(10,10,13,0.55) 0%, rgba(10,10,13,0) 30%, rgba(10,10,13,0) 50%, rgba(10,10,13,0.95) 100%)',
-            pointerEvents: 'none',
-          }}
-        />
-        <div
-          aria-hidden
-          style={{
-            position: 'absolute',
-            inset: 0,
-            opacity: 0.45,
-            mixBlendMode: 'overlay',
-            backgroundImage: GRAIN_BG,
-            pointerEvents: 'none',
-          }}
-        />
-
-        {/* top label */}
-        <div
-          style={{
-            position: 'absolute',
-            top: 16,
-            left: 20,
-            fontFamily: MONO,
-            fontSize: 9.5,
-            letterSpacing: '0.28em',
-            color: 'rgba(255,255,255,0.75)',
-            display: 'flex',
-            alignItems: 'center',
-            gap: 8,
-            fontWeight: 700,
+            position: 'relative',
+            width: '80vw',
+            marginLeft: 'calc(-22px + 10vw)',
+            aspectRatio: '4 / 5',
+            alignSelf: 'flex-start',
+            opacity: photoR.vis ? 1 : 0,
+            transform: photoR.vis ? 'translateY(0)' : 'translateY(14px)',
+            transition: 'opacity 900ms, transform 1100ms cubic-bezier(.2,.7,.2,1)',
           }}
         >
-          <span style={{ color: RED }}>●</span>
-          <span>FRAME / SUBJ_01</span>
+          <img
+            src={PHOTO}
+            alt="Coach Rahul"
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center 22%',
+              display: 'block',
+              filter: 'contrast(1.08) saturate(0.78) brightness(0.94)',
+            }}
+          />
         </div>
 
-        {/* bottom-left caption */}
-        <div
-          style={{
-            position: 'absolute',
-            left: 20,
-            bottom: 14,
-            fontFamily: MONO,
-            fontSize: 8.5,
-            letterSpacing: '0.26em',
-            color: 'rgba(255,255,255,0.5)',
-            fontWeight: 700,
-          }}
-        >
-          UNRETOUCHED · KANDY
-        </div>
-      </div>
-
-      {/* type column */}
-      <div
-        ref={copyR.ref}
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          padding: '32px 22px 56px',
-          marginTop: -60, /* lift name over photo bleed */
-        }}
-      >
-        {/* eyebrow */}
+        {/* eyebrow — sits above name, overlaps photo */}
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
             gap: 10,
-            marginBottom: 14,
-            opacity: copyR.vis ? 1 : 0,
-            transition: 'opacity 600ms',
+            width: '88vw',
+            marginLeft: 'calc(-22px + 6vw)',
+            marginTop: 'calc(-0.45 * 22vw - 32px)',
+            position: 'relative',
+            zIndex: 3,
+            opacity: photoR.vis ? 1 : 0,
+            transition: 'opacity 700ms 60ms ease',
           }}
         >
           <span style={{ width: 24, height: 1, background: RED }} />
@@ -635,140 +591,133 @@ function MobileCoach() {
               letterSpacing: '0.28em',
               color: RED,
               textTransform: 'uppercase',
+              textShadow: '0 4px 18px rgba(0,0,0,0.65)',
             }}
           >
             [ 004 / Coach ]
           </span>
         </div>
 
-        {/* name */}
+        {/* name — fills photo width, ~45% overlaps photo bottom */}
         <h2
           style={{
             fontFamily: 'Freshman, serif',
-            fontSize: 'clamp(80px, 24vw, 120px)',
-            lineHeight: 0.84,
+            fontSize: '22vw',
+            lineHeight: 0.86,
             margin: 0,
+            marginTop: 8,
+            width: '88vw',
+            marginLeft: 'calc(-22px + 6vw)',
             letterSpacing: '-0.02em',
             color: '#fff',
-            opacity: copyR.vis ? 1 : 0,
-            transform: copyR.vis ? 'translateY(0)' : 'translateY(14px)',
-            transition: 'opacity 800ms 80ms, transform 800ms 80ms cubic-bezier(.2,.7,.2,1)',
+            position: 'relative',
+            zIndex: 3,
+            textShadow: '0 6px 24px rgba(0,0,0,0.55)',
+            whiteSpace: 'nowrap',
+            opacity: photoR.vis ? 1 : 0,
+            transform: photoR.vis ? 'translateY(0)' : 'translateY(18px)',
+            transition: 'opacity 900ms 120ms cubic-bezier(.2,.7,.2,1), transform 1000ms 120ms cubic-bezier(.2,.7,.2,1)',
           }}
         >
           {COACH.name}
           <span style={{ color: RED }}>.</span>
         </h2>
 
-        {/* spec line */}
-        <div
-          style={{
-            display: 'flex',
-            flexWrap: 'wrap',
-            gap: 10,
-            marginTop: 18,
-            paddingTop: 12,
-            borderTop: '1px solid rgba(255,255,255,0.12)',
-            fontFamily: MONO,
-            fontSize: 9.5,
-            letterSpacing: '0.26em',
-            color: 'rgba(255,255,255,0.62)',
-            fontWeight: 700,
-          }}
-        >
-          <span style={{ color: '#fff' }}>{COACH.title.toUpperCase()}</span>
-          <span style={{ opacity: 0.3 }}>/</span>
-          <span>{COACH.years} YRS</span>
-          <span style={{ opacity: 0.3 }}>/</span>
-          <span style={{ color: RED }}>{COACH.cred}</span>
-        </div>
+        {/* type */}
+        <div ref={copyR.ref} style={{ marginTop: 20 }}>
+          <div
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 10,
+              marginTop: 14,
+              paddingTop: 12,
+              borderTop: '1px solid rgba(255,255,255,0.14)',
+              fontFamily: MONO,
+              fontSize: 9.5,
+              letterSpacing: '0.26em',
+              color: 'rgba(255,255,255,0.62)',
+              fontWeight: 700,
+            }}
+          >
+            <span style={{ color: '#fff' }}>{COACH.title.toUpperCase()}</span>
+            <span style={{ opacity: 0.3 }}>/</span>
+            <span>{COACH.years} YRS</span>
+            <span style={{ opacity: 0.3 }}>/</span>
+            <span style={{ color: RED }}>{COACH.cred}</span>
+          </div>
 
-        {/* bio */}
-        <p
-          style={{
-            fontFamily: 'Inter, system-ui',
-            fontSize: 15.5,
-            lineHeight: 1.6,
-            color: 'rgba(255,255,255,0.78)',
-            margin: '24px 0 0',
-          }}
-        >
-          {COACH.bio}
-        </p>
+          <p
+            style={{
+              fontFamily: 'Inter, system-ui',
+              fontSize: 15,
+              lineHeight: 1.6,
+              color: 'rgba(255,255,255,0.82)',
+              margin: '18px 0 0',
+            }}
+          >
+            {COACH.bio}
+          </p>
 
-        {/* ledger */}
-        <div
-          style={{
-            marginTop: 36,
-            borderTop: `1px solid ${RED}`,
-            paddingTop: 4,
-          }}
-        >
-          {LEDGER.map((row, i) => (
-            <div
-              key={row.n}
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '42px 1fr',
-                gap: 14,
-                padding: '14px 0',
-                borderBottom:
-                  i < LEDGER.length - 1 ? '1px solid rgba(255,255,255,0.08)' : 'none',
-                alignItems: 'baseline',
-              }}
-            >
-              <span
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              gap: 6,
+              marginTop: 22,
+            }}
+          >
+            {STATS.map((s) => (
+              <div
+                key={s.k}
                 style={{
-                  fontFamily: 'Freshman, serif',
-                  fontSize: 24,
-                  color: '#fff',
-                  lineHeight: 1,
+                  border: '1px solid rgba(255,255,255,0.18)',
+                  background: 'rgba(10,10,13,0.45)',
+                  padding: '8px 10px',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: 3,
+                  fontFamily: MONO,
+                  fontWeight: 700,
+                  minWidth: 0,
                 }}
               >
-                {row.n}
-              </span>
-              <div>
-                <div
+                <span style={{ color: RED, fontSize: 8.5, letterSpacing: '0.24em' }}>
+                  / {s.k}
+                </span>
+                <span
                   style={{
-                    fontFamily: MONO,
-                    fontSize: 9,
-                    letterSpacing: '0.26em',
-                    color: RED,
-                    fontWeight: 700,
-                    marginBottom: 4,
+                    color: 'rgba(255,255,255,0.86)',
+                    fontSize: 10,
+                    letterSpacing: '0.1em',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                   }}
                 >
-                  / {row.k}
-                </div>
-                <div
-                  style={{
-                    fontFamily: 'Inter, system-ui',
-                    fontSize: 13.5,
-                    lineHeight: 1.5,
-                    color: 'rgba(255,255,255,0.72)',
-                  }}
-                >
-                  {row.v}
-                </div>
+                  {s.v}
+                </span>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
 
-        {/* sign-off */}
-        <div
-          style={{
-            marginTop: 22,
-            display: 'flex',
-            justifyContent: 'space-between',
-            fontFamily: MONO,
-            fontSize: 9,
-            letterSpacing: '0.26em',
-            color: 'rgba(255,255,255,0.42)',
-            fontWeight: 700,
-          }}
-        >
-          <span>UNDER THE SQUAT RACK</span>
-          <span style={{ color: RED }}>● ON DUTY</span>
+          <div
+            style={{
+              marginTop: 22,
+              paddingTop: 12,
+              borderTop: `1px solid ${RED}`,
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontFamily: MONO,
+              fontSize: 9,
+              letterSpacing: '0.26em',
+              color: 'rgba(255,255,255,0.5)',
+              fontWeight: 700,
+            }}
+          >
+            <span>UNDER THE SQUAT RACK</span>
+            <span style={{ color: RED }}>● ON DUTY</span>
+          </div>
         </div>
       </div>
     </section>
