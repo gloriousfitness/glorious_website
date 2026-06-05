@@ -189,8 +189,6 @@ export default function Home({ booted }: { booted: boolean }) {
           top: 0,
           left: 0,
           right: 0,
-          maxWidth: 430,
-          margin: '0 auto',
           padding: scrolled ? '10px 24px' : '16px 24px',
           paddingTop: scrolled
             ? 'max(10px, env(safe-area-inset-top))'
@@ -270,8 +268,6 @@ export default function Home({ booted }: { booted: boolean }) {
             : 'max(16px, env(safe-area-inset-top))',
           right: 24,
           zIndex: 1100,
-          maxWidth: 430,
-          margin: '0 auto',
           left: 0,
           pointerEvents: 'none',
           transition: 'top 360ms cubic-bezier(0.22,1,0.36,1)',
@@ -279,7 +275,7 @@ export default function Home({ booted }: { booted: boolean }) {
       >
         <div
           className="relative flex justify-end"
-          style={{ maxWidth: 430, margin: '0 auto', pointerEvents: 'auto' }}
+          style={{ pointerEvents: 'auto' }}
         >
           <div style={{ pointerEvents: 'auto' }}>
             <MenuButton open={menuOpen} onClick={toggle} />

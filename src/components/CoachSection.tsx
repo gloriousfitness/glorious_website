@@ -9,15 +9,20 @@ const MONO = "'JetBrains Mono', ui-monospace, Menlo, monospace"
 const COACH = {
   name: 'RAHUL',
   title: 'Bodybuilding',
-  years: '05',
+  years: '07',
   bio: 'National-level bodybuilder turned coach. Builds champions from raw iron.',
   cred: 'NATIONAL',
 }
 
 const STATS: { k: string; v: string }[] = [
-  { k: 'FLOOR', v: '05:00 / 22:00' },
   { k: 'IRON', v: 'Raw lifts' },
   { k: 'PREP', v: 'Stage peak' },
+]
+
+type Achievement = { year: string; title: string; place: string; podium?: boolean; mark?: boolean }
+
+const ACHIEVEMENTS: Achievement[] = [
+  { year: '2023', title: 'Mr Kandy · Under 21', place: 'RUNNER-UP', podium: true, mark: true },
 ]
 
 const GRAIN_BG =
@@ -369,17 +374,139 @@ function DesktopCoach() {
             {COACH.bio}
           </p>
 
-          {/* stat pills — 3-in-row */}
+          {/* ACHIEVEMENT LEDGER */}
+          <div
+            style={{
+              marginTop: 32,
+              maxWidth: 560,
+              opacity: copyR.vis ? 1 : 0,
+              transform: copyR.vis ? 'translateY(0)' : 'translateY(10px)',
+              transition: 'opacity 800ms 380ms, transform 800ms 380ms',
+            }}
+          >
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 10,
+                marginBottom: 12,
+              }}
+            >
+              <span style={{ width: 20, height: 1, background: RED }} />
+              <span
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 9.5,
+                  letterSpacing: '0.32em',
+                  color: RED,
+                  fontWeight: 700,
+                }}
+              >
+                / LOG · STAGE RECORD — SINCE 2019
+              </span>
+              <span
+                style={{
+                  marginLeft: 'auto',
+                  fontFamily: MONO,
+                  fontSize: 9,
+                  letterSpacing: '0.28em',
+                  color: 'rgba(255,255,255,0.35)',
+                  fontWeight: 700,
+                }}
+              >
+                {String(ACHIEVEMENTS.length).padStart(2, '0')} ENTRIES
+              </span>
+            </div>
+
+            <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              {ACHIEVEMENTS.map((a, i) => (
+                <li
+                  key={a.year}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '54px 1fr auto',
+                    gap: 14,
+                    alignItems: 'baseline',
+                    padding: '10px 0 10px 12px',
+                    borderTop:
+                      i === 0 ? '1px solid rgba(255,255,255,0.18)' : '1px dashed rgba(255,255,255,0.10)',
+                    borderLeft: a.mark ? `2px solid ${RED}` : '2px solid transparent',
+                    background: a.mark ? 'rgba(225,10,31,0.06)' : 'transparent',
+                    fontFamily: MONO,
+                    fontWeight: 700,
+                    opacity: copyR.vis ? 1 : 0,
+                    transform: copyR.vis ? 'translateY(0)' : 'translateY(6px)',
+                    transition: `opacity 600ms ${420 + i * 60}ms ease, transform 600ms ${420 + i * 60}ms ease`,
+                  }}
+                >
+                  <span
+                    style={{
+                      color: a.mark ? RED : 'rgba(255,255,255,0.92)',
+                      fontSize: 11,
+                      letterSpacing: '0.16em',
+                    }}
+                  >
+                    {a.year}
+                  </span>
+                  <span
+                    style={{
+                      color: a.mark ? '#fff' : 'rgba(255,255,255,0.82)',
+                      fontSize: 11.5,
+                      letterSpacing: '0.18em',
+                      textTransform: 'uppercase',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    {a.title}
+                  </span>
+                  <span
+                    style={{
+                      color: a.podium ? RED : 'rgba(255,255,255,0.45)',
+                      fontSize: 10,
+                      letterSpacing: '0.26em',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {a.podium ? '●' : '○'} {a.place}
+                  </span>
+                </li>
+              ))}
+              <li
+                style={{
+                  borderTop: '1px solid rgba(255,255,255,0.18)',
+                  marginTop: 0,
+                  paddingTop: 10,
+                  paddingLeft: 12,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontFamily: MONO,
+                  fontSize: 9,
+                  letterSpacing: '0.3em',
+                  color: 'rgba(255,255,255,0.4)',
+                  fontWeight: 700,
+                  opacity: copyR.vis ? 1 : 0,
+                  transition: `opacity 600ms ${420 + ACHIEVEMENTS.length * 60}ms ease`,
+                }}
+              >
+                <span>● PODIUM · ○ FINALIST</span>
+                <span style={{ color: RED }}>STILL COMPETING</span>
+              </li>
+            </ol>
+          </div>
+
+          {/* stat pills */}
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
               gap: 10,
               marginTop: 28,
               maxWidth: 560,
               opacity: copyR.vis ? 1 : 0,
               transform: copyR.vis ? 'translateY(0)' : 'translateY(10px)',
-              transition: 'opacity 800ms 420ms, transform 800ms 420ms',
+              transition: 'opacity 800ms 720ms, transform 800ms 720ms',
             }}
           >
             {STATS.map((s) => (
@@ -659,10 +786,118 @@ function MobileCoach() {
             {COACH.bio}
           </p>
 
+          {/* ACHIEVEMENT LEDGER */}
+          <div style={{ marginTop: 26 }}>
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 8,
+                marginBottom: 10,
+              }}
+            >
+              <span style={{ width: 16, height: 1, background: RED }} />
+              <span
+                style={{
+                  fontFamily: MONO,
+                  fontSize: 8.5,
+                  letterSpacing: '0.3em',
+                  color: RED,
+                  fontWeight: 700,
+                }}
+              >
+                / LOG · SINCE 2019
+              </span>
+              <span
+                style={{
+                  marginLeft: 'auto',
+                  fontFamily: MONO,
+                  fontSize: 8,
+                  letterSpacing: '0.26em',
+                  color: 'rgba(255,255,255,0.35)',
+                  fontWeight: 700,
+                }}
+              >
+                {String(ACHIEVEMENTS.length).padStart(2, '0')} ENTRIES
+              </span>
+            </div>
+
+            <ol style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+              {ACHIEVEMENTS.map((a, i) => (
+                <li
+                  key={a.year}
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '40px 1fr auto',
+                    gap: 10,
+                    alignItems: 'baseline',
+                    padding: '8px 0 8px 8px',
+                    borderTop:
+                      i === 0 ? '1px solid rgba(255,255,255,0.18)' : '1px dashed rgba(255,255,255,0.10)',
+                    borderLeft: a.mark ? `2px solid ${RED}` : '2px solid transparent',
+                    background: a.mark ? 'rgba(225,10,31,0.08)' : 'transparent',
+                    fontFamily: MONO,
+                    fontWeight: 700,
+                  }}
+                >
+                  <span
+                    style={{
+                      color: a.mark ? RED : 'rgba(255,255,255,0.92)',
+                      fontSize: 10,
+                      letterSpacing: '0.14em',
+                    }}
+                  >
+                    {a.year}
+                  </span>
+                  <span
+                    style={{
+                      color: a.mark ? '#fff' : 'rgba(255,255,255,0.82)',
+                      fontSize: 10,
+                      letterSpacing: '0.14em',
+                      textTransform: 'uppercase',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {a.title}
+                  </span>
+                  <span
+                    style={{
+                      color: a.podium ? RED : 'rgba(255,255,255,0.45)',
+                      fontSize: 8.5,
+                      letterSpacing: '0.22em',
+                      whiteSpace: 'nowrap',
+                    }}
+                  >
+                    {a.podium ? '●' : '○'} {a.place}
+                  </span>
+                </li>
+              ))}
+              <li
+                style={{
+                  borderTop: '1px solid rgba(255,255,255,0.18)',
+                  paddingTop: 8,
+                  paddingLeft: 8,
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  fontFamily: MONO,
+                  fontSize: 8,
+                  letterSpacing: '0.28em',
+                  color: 'rgba(255,255,255,0.4)',
+                  fontWeight: 700,
+                }}
+              >
+                <span>● PODIUM · ○ FINAL</span>
+                <span style={{ color: RED }}>ONGOING</span>
+              </li>
+            </ol>
+          </div>
+
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(3, minmax(0, 1fr))',
+              gridTemplateColumns: 'repeat(2, minmax(0, 1fr))',
               gap: 6,
               marginTop: 22,
             }}

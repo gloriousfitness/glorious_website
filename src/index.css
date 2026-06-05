@@ -44,21 +44,21 @@ button {
   font-family: inherit;
 }
 
-/* Mobile-first container: phone width on desktop, full width on mobile */
+/* Mobile-first container: phone width on desktop, full width on mobile/tablet */
 .mobile-shell {
   width: 100%;
-  max-width: 430px;
-  margin: 0 auto;
   min-height: 100svh;
   position: relative;
   background: #0d0d10;
 }
 
-@media (min-width: 431px) {
+@media (min-width: 768px) {
   body {
     background: #1a1a1d;
   }
   .mobile-shell {
+    max-width: 430px;
+    margin: 0 auto;
     box-shadow: 0 40px 80px rgba(0,0,0,0.5);
   }
 }

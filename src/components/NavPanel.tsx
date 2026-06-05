@@ -21,17 +21,17 @@ export default function NavPanel({ open, linksVisible, onClose }: Props) {
   return (
     <div
       aria-hidden={!open}
-      className="fixed inset-0 flex flex-col md:hidden"
+      className="fixed top-0 right-0 bottom-0 flex flex-col md:hidden"
       style={{
         background: '#0d0d10',
+        width: '100%',
+        maxWidth: 430,
         transform: open ? 'translateX(0)' : 'translateX(100%)',
         transition: open
           ? 'transform 450ms cubic-bezier(0.22,1,0.36,1)'
           : 'transform 400ms cubic-bezier(0.55,0,1,0.45)',
         zIndex: 1050,
         willChange: 'transform',
-        maxWidth: 430,
-        margin: '0 auto',
       }}
     >
       <div style={{ paddingTop: 32 }}>
