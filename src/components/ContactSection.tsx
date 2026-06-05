@@ -8,8 +8,8 @@ const PHONE_DISPLAY = '081 760 1677'
 const PHONE_HREF = 'tel:+94817601677'
 const PHONE2_DISPLAY = '075 695 3689'
 const PHONE2_HREF = 'tel:+94756953689'
-const WEBSITE_DISPLAY = 'www.gloriousfitness.lk'
-const WEBSITE_HREF = 'https://www.gloriousfitness.lk'
+const EMAIL_DISPLAY = 'gloriousfitnessfactory@gmail.com'
+const EMAIL_HREF = 'mailto:gloriousfitnessfactory@gmail.com'
 const ADDRESS_LINE1 = 'No: 340, Kandy Road'
 const ADDRESS_LINE2 = 'Wattegama, Kandy'
 
@@ -168,7 +168,7 @@ const INFO_ROWS: InfoRowData[] = [
     ),
     href: PHONE_HREF,
   },
-  { n: '02', label: 'Web', value: WEBSITE_DISPLAY, href: WEBSITE_HREF, external: true },
+  { n: '02', label: 'Email', value: EMAIL_DISPLAY, href: EMAIL_HREF },
   {
     n: '03',
     label: 'Address',
@@ -189,9 +189,9 @@ const SOCIALS: { label: string; href: string }[] = [
 ]
 
 const RIGHT_PHOTOS: { src: string; label: string }[] = [
-  { src: '/gallery/gym/BN3A9415.jpg', label: 'Floor' },
-  { src: '/gallery/gym/BN3A9416.jpg', label: 'Strength' },
-  { src: '/gallery/gym/BN3A9417.jpg', label: 'Recovery' },
+  { src: '/gallery/gym/BN3A9415.webp', label: 'Floor' },
+  { src: '/gallery/gym/BN3A9416.webp', label: 'Strength' },
+  { src: '/gallery/gym/BN3A9417.webp', label: 'Recovery' },
 ]
 
 /* ─── Mobile layout ─────────────────────────────────────────────────── */
@@ -235,8 +235,8 @@ function MobileContact() {
           whiteSpace: 'nowrap',
         }}
       >
-        <span>Open 24 / 7</span>
-        <span style={{ opacity: 0.85 }}>Wattegama · 7.34°N 80.68°E</span>
+        <span>Glorious F.C.</span>
+        <span style={{ opacity: 0.85 }}>Wattegama</span>
       </div>
 
       <div
@@ -303,53 +303,7 @@ function MobileContact() {
           <span style={{ color: '#fff' }}>The floor never closes.</span>
         </p>
 
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: 12,
-            marginTop: 32,
-            padding: '14px 0',
-            borderTop: `1px solid ${RED}`,
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
-          }}
-        >
-          <span
-            style={{
-              width: 7,
-              height: 7,
-              borderRadius: 999,
-              background: '#1bd96a',
-              boxShadow: '0 0 10px #1bd96a, 0 0 2px #1bd96a',
-              flexShrink: 0,
-            }}
-          />
-          <span
-            style={{
-              fontFamily: 'Inter, system-ui',
-              fontSize: 9.5,
-              letterSpacing: '0.28em',
-              color: '#fff',
-              textTransform: 'uppercase',
-            }}
-          >
-            Open Now
-          </span>
-          <span style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
-          <span
-            style={{
-              fontFamily: 'Inter, system-ui',
-              fontSize: 9.5,
-              letterSpacing: '0.28em',
-              color: 'rgba(255,255,255,0.6)',
-              textTransform: 'uppercase',
-            }}
-          >
-            24 / 7
-          </span>
-        </div>
-
-        <div style={{ marginTop: 4 }}>
+        <div style={{ marginTop: 32 }}>
           {INFO_ROWS.map((row, i) => (
             <a
               key={row.n}
@@ -790,7 +744,7 @@ function DesktopContact() {
         }}
       >
         <span>Glorious Fitness Factory · Wattegama</span>
-        <span style={{ opacity: 0.85 }}>Open 24 / 7 · Walk-ins Welcome · 7.34°N 80.68°E</span>
+        <span style={{ opacity: 0.85 }}>Walk-ins Welcome</span>
       </div>
 
       {/* Main row */}
@@ -856,53 +810,6 @@ function DesktopContact() {
             Walk in. Call. Lift.{' '}
             <span style={{ color: '#fff' }}>The floor never closes.</span>
           </p>
-
-          {/* Status strip */}
-          <div
-            style={{
-              display: 'flex',
-              alignItems: 'center',
-              gap: 12,
-              marginTop: 28,
-              padding: '12px 0',
-              borderTop: `1px solid ${RED}`,
-              borderBottom: '1px solid rgba(255,255,255,0.08)',
-            }}
-          >
-            <span
-              style={{
-                width: 7,
-                height: 7,
-                borderRadius: 999,
-                background: '#1bd96a',
-                boxShadow: '0 0 10px #1bd96a, 0 0 2px #1bd96a',
-                flexShrink: 0,
-              }}
-            />
-            <span
-              style={{
-                fontFamily: 'Inter, system-ui',
-                fontSize: 9.5,
-                letterSpacing: '0.28em',
-                color: '#fff',
-                textTransform: 'uppercase',
-              }}
-            >
-              Open Now
-            </span>
-            <span style={{ flex: 1, height: 1, background: 'rgba(255,255,255,0.08)' }} />
-            <span
-              style={{
-                fontFamily: 'Inter, system-ui',
-                fontSize: 9.5,
-                letterSpacing: '0.28em',
-                color: 'rgba(255,255,255,0.6)',
-                textTransform: 'uppercase',
-              }}
-            >
-              24 / 7
-            </span>
-          </div>
 
           {/* Info rows */}
           <div>
@@ -1237,7 +1144,7 @@ function DesktopContact() {
         }}
       >
         <span>Iron · Sweat · Glory</span>
-        <span style={{ opacity: 0.85 }}>{PHONE_DISPLAY} · {PHONE2_DISPLAY} · {WEBSITE_DISPLAY}</span>
+        <span style={{ opacity: 0.85 }}>{PHONE_DISPLAY} · {PHONE2_DISPLAY} · {EMAIL_DISPLAY}</span>
       </div>
     </section>
   )
