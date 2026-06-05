@@ -1,73 +1,48 @@
-# React + TypeScript + Vite
+# Glorious Fitness Center — Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Marketing site for **Glorious Fitness Center**, Wattegama, Kandy, Sri Lanka. Built with React 19 + TypeScript + Vite + Tailwind CSS v4.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## Stack
 
-## React Compiler
+| Layer | Tech |
+|---|---|
+| Framework | React 19 |
+| Language | TypeScript 6 |
+| Build | Vite 8 |
+| Styling | Tailwind CSS v4 |
+| Routing | React Router v7 |
+| Map | Leaflet + react-leaflet |
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+---
 
-## Expanding the ESLint configuration
+## Sections
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **Hero** — Full-screen brand intro. Mobile: video + headline + CTAs. Desktop: broadcast-control-room theme (CRT scanlines, SMPTE timecode, "LIVE" bug, sweep).
+- **About** — Hours (6–10 daily), equipment (free weights / cardio / bodyweight), 1-on-1 coaching pitch.
+- **Gallery** — Two reels: *Gym* (22 shots) and *Competition* (12 shots). Click-through lightbox with keyboard navigation (← → ESC) and frame counter.
+- **Coach** — Profile for Coach Rahul: national-level bodybuilder, stats, background video bleed-through.
+- **Contact** — Address, phone, email, interactive Leaflet map with animated pulse marker, "Book a Session" CTA, social links.
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+---
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Dev
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm install
+npm run dev        # localhost:5173
+npm run build      # tsc + vite build -> dist/
+npm run preview    # serve dist/
+npm run lint
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## Contact Info
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| | |
+|---|---|
+| Address | No. 340, Kandy Road, Wattegama, Kandy |
+| Phone | 081 760 1677 / 075 695 3689 |
+| Email | gloriousfitnessfactory@gmail.com |
