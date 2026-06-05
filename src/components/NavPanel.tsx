@@ -38,7 +38,7 @@ export default function NavPanel({ open, linksVisible, onClose }: Props) {
         <div style={{ display: 'flex', alignItems: 'center', padding: '12px 24px 18px' }}>
           <div className="flex flex-row items-center" style={{ gap: 7 }}>
             <img
-              src="/glorious-logo.png"
+              src="/glorious-logo.webp"
               alt="Glorious logo"
               style={{ height: 40, width: 40, objectFit: 'contain', flexShrink: 0 }}
             />

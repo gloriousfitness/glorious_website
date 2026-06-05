@@ -125,7 +125,7 @@ export default function Home({ booted }: { booted: boolean }) {
           style={{ gap: 8, textDecoration: 'none', flexShrink: 0 }}
         >
           <img
-            src="/glorious-logo.png"
+            src="/glorious-logo.webp"
             alt="Glorious logo"
             style={{ height: 34, width: 34, objectFit: 'contain', flexShrink: 0 }}
           />
@@ -218,7 +218,7 @@ export default function Home({ booted }: { booted: boolean }) {
           }}
         >
           <img
-            src="/glorious-logo.png"
+            src="/glorious-logo.webp"
             alt="Glorious logo"
             style={{
               height: scrolled ? 32 : 44,
