@@ -65,6 +65,15 @@ const WINGS = [
     kit: 'Sleds · Boxes · Open Floor',
     goal: 'Game Day',
   },
+  {
+    n: '07',
+    code: 'D-01',
+    title: 'Personal Training',
+    body: 'One-on-one coaching with customized fitness programs built around your exact goals. No guesswork — just a coach, a plan, and results.',
+    tag: 'Coach',
+    kit: 'Full Gym Access',
+    goal: 'Your Goal',
+  },
 ]
 
 function WingRow({
@@ -571,7 +580,7 @@ export default function AboutSectionDesktop() {
             <span style={{ opacity: 0.4 }}>///</span>
             <span>Vol. 02</span>
             <span style={{ marginLeft: 'auto', color: 'rgba(244,237,228,0.35)' }}>
-              Rev. 2026 — 06 Entries
+              Rev. 2026 — 07 Entries
             </span>
           </div>
 
@@ -616,58 +625,6 @@ export default function AboutSectionDesktop() {
               </h3>
             </div>
 
-            {/* Approval stamp */}
-            <div
-              style={{
-                transform: 'rotate(-6deg)',
-                border: `2px solid ${RED}`,
-                padding: '14px 18px 12px',
-                color: RED,
-                fontFamily: 'Freshman, serif',
-                textAlign: 'center',
-                opacity: 0.78,
-                position: 'relative',
-                flexShrink: 0,
-                background: 'rgba(13,6,8,0.4)',
-              }}
-            >
-              <div
-                style={{
-                  fontSize: 9,
-                  letterSpacing: '0.32em',
-                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                  marginBottom: 4,
-                  opacity: 0.7,
-                }}
-              >
-                CERTIFIED
-              </div>
-              <div
-                style={{
-                  fontSize: 22,
-                  letterSpacing: '0.06em',
-                  lineHeight: 1,
-                }}
-              >
-                APPROVED
-              </div>
-              <div
-                style={{
-                  fontSize: 8,
-                  letterSpacing: '0.3em',
-                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                  marginTop: 4,
-                  opacity: 0.6,
-                }}
-              >
-                GFC · 26
-              </div>
-              {/* corner ticks */}
-              <span style={{ position: 'absolute', top: -1, left: -1, width: 8, height: 8, borderTop: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
-              <span style={{ position: 'absolute', top: -1, right: -1, width: 8, height: 8, borderTop: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
-              <span style={{ position: 'absolute', bottom: -1, left: -1, width: 8, height: 8, borderBottom: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
-              <span style={{ position: 'absolute', bottom: -1, right: -1, width: 8, height: 8, borderBottom: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
-            </div>
           </div>
 
           {/* Column legend strip */}
@@ -778,7 +735,7 @@ export default function AboutSectionDesktop() {
             }}
           >
             <span>End of Manifest</span>
-            <span style={{ color: RED }}>— § 002 / 06 of 06 —</span>
+            <span style={{ color: RED }}>— § 002 / 07 of 07 —</span>
             <span>Filed · GFC Archive</span>
           </div>
         </div>

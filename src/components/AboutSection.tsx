@@ -62,6 +62,15 @@ const WINGS = [
     kit: 'Sleds · Boxes · Open Floor',
     goal: 'Game Day',
   },
+  {
+    n: '07',
+    code: 'D-01',
+    title: 'Personal Training',
+    body: 'One-on-one coaching with customized fitness programs built around your exact goals. No guesswork — just a coach, a plan, and results.',
+    tag: 'Coach',
+    kit: 'Full Gym Access',
+    goal: 'Your Goal',
+  },
 ]
 
 const GRAIN_BG =
@@ -316,7 +325,7 @@ export default function AboutSection() {
             <span style={{ opacity: 0.4 }}>///</span>
             <span>Vol. 02</span>
             <span style={{ marginLeft: 'auto', color: 'rgba(244,237,228,0.35)' }}>
-              06 entries
+              07 entries
             </span>
           </div>
 
@@ -361,57 +370,6 @@ export default function AboutSection() {
               </h3>
             </div>
 
-            {/* Mini approval stamp */}
-            <div
-              style={{
-                transform: 'rotate(-6deg)',
-                border: `2px solid ${RED}`,
-                padding: '6px 9px 5px',
-                color: RED,
-                textAlign: 'center',
-                opacity: 0.85,
-                position: 'relative',
-                flexShrink: 0,
-                background: 'rgba(13,6,8,0.4)',
-              }}
-            >
-              <div
-                style={{
-                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                  fontSize: 6.5,
-                  letterSpacing: '0.28em',
-                  marginBottom: 2,
-                  opacity: 0.7,
-                }}
-              >
-                CERT.
-              </div>
-              <div
-                style={{
-                  fontFamily: 'Freshman, serif',
-                  fontSize: 11,
-                  letterSpacing: '0.06em',
-                  lineHeight: 1,
-                }}
-              >
-                APPROVED
-              </div>
-              <div
-                style={{
-                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                  fontSize: 6,
-                  letterSpacing: '0.28em',
-                  marginTop: 2,
-                  opacity: 0.6,
-                }}
-              >
-                GFC · 26
-              </div>
-              <span style={{ position: 'absolute', top: -1, left: -1, width: 5, height: 5, borderTop: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
-              <span style={{ position: 'absolute', top: -1, right: -1, width: 5, height: 5, borderTop: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
-              <span style={{ position: 'absolute', bottom: -1, left: -1, width: 5, height: 5, borderBottom: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
-              <span style={{ position: 'absolute', bottom: -1, right: -1, width: 5, height: 5, borderBottom: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
-            </div>
           </div>
         </div>
 
@@ -650,7 +608,7 @@ export default function AboutSection() {
             }}
           >
             <span>End</span>
-            <span style={{ color: RED }}>§ 002 / 06 of 06</span>
+            <span style={{ color: RED }}>§ 002 / 07 of 07</span>
             <span>GFC Archive</span>
           </div>
         </div>
