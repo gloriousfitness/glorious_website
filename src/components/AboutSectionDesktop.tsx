@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react'
 
 const RED = '#E10A1F'
+const BONE = '#f4ede4'
+const RUST = '#5a1a1f'
 
 const STATS = [
   { v: '6—10', l: 'Open Daily' },
@@ -11,21 +13,57 @@ const STATS = [
 const WINGS = [
   {
     n: '01',
-    title: 'Free Weights',
-    body: 'Barbells, dumbbells, racks, plates. Pick the weight, do the work — no waiting, no lines.',
+    code: 'A-01',
+    title: 'Strength Training',
+    body: 'Weight lifting, powerlifting, resistance work. Pull plates, push limits, build the base.',
     tag: 'Iron',
+    kit: 'Racks · Bars · Plates',
+    goal: 'Raw Power',
   },
   {
     n: '02',
-    title: 'Cardio',
-    body: 'Bikes, rowers, treadmills. Pump lungs, build the engine, finish strong.',
-    tag: 'Burn',
+    code: 'A-02',
+    title: 'Muscle Building',
+    body: 'Bodybuilding splits and hypertrophy programs. Size the frame, sculpt the lines.',
+    tag: 'Mass',
+    kit: 'Dumbbells · Cables · Machines',
+    goal: 'Size',
   },
   {
     n: '03',
-    title: 'Bodyweight',
-    body: 'Bars, rings, mats, mobility tools. Own the body before you own the iron.',
-    tag: 'Move',
+    code: 'B-01',
+    title: 'Fat Loss',
+    body: 'HIIT, cardio mixes, fat-loss circuits. Sweat hard, burn clean, drop weight.',
+    tag: 'Cut',
+    kit: 'Bikes · Rowers · Floor',
+    goal: 'Burn',
+  },
+  {
+    n: '04',
+    code: 'B-02',
+    title: 'Cardiovascular',
+    body: 'Treadmill, cycle, row, stair-climb. Pump lungs, build the engine, finish strong.',
+    tag: 'Pulse',
+    kit: 'Treads · Cycles · Steppers',
+    goal: 'Engine',
+  },
+  {
+    n: '05',
+    code: 'C-01',
+    title: 'Endurance',
+    body: 'Long-haul cardio, circuit training, sports conditioning. Outlast every round.',
+    tag: 'Stamina',
+    kit: 'Circuit Floor · Open Mats',
+    goal: 'Distance',
+  },
+  {
+    n: '06',
+    code: 'C-02',
+    title: 'Performance',
+    body: 'Athletic conditioning, speed and agility, sport-specific work. Train like the game demands.',
+    tag: 'Athlete',
+    kit: 'Sleds · Boxes · Open Floor',
+    goal: 'Game Day',
   },
 ]
 
@@ -48,124 +86,182 @@ function WingRow({
       onMouseLeave={() => setHovered(false)}
       style={{
         display: 'grid',
-        gridTemplateColumns: '180px 1fr 2fr 120px',
-        gap: 48,
-        alignItems: 'center',
-        padding: '36px 0',
-        borderBottom: isLast ? 'none' : '1px solid rgba(255,255,255,0.07)',
+        gridTemplateColumns: '110px 1fr 200px',
+        columnGap: 48,
+        alignItems: 'start',
+        padding: '40px 0 36px',
+        borderBottom: isLast ? 'none' : '1px solid rgba(244,237,228,0.10)',
         position: 'relative',
         opacity: visible ? 1 : 0,
-        transform: visible ? 'translateY(0)' : 'translateY(20px)',
+        transform: visible ? 'translateY(0)' : 'translateY(18px)',
         transition: `opacity 600ms ${300 + delay}ms ease, transform 700ms ${300 + delay}ms cubic-bezier(0.22,1,0.36,1)`,
         cursor: 'default',
       }}
     >
-      {/* Hover background fill — bleeds full row */}
+      {/* Row hover wash + stamp */}
       <div
         aria-hidden
         style={{
           position: 'absolute',
-          inset: '0 -32px',
+          inset: '0 -40px',
           background: hovered
-            ? 'linear-gradient(90deg, rgba(225,10,31,0.08) 0%, rgba(225,10,31,0) 60%)'
+            ? 'linear-gradient(90deg, rgba(90,26,31,0.32) 0%, rgba(90,26,31,0) 75%)'
             : 'transparent',
-          transition: 'background 320ms ease',
+          transition: 'background 360ms ease',
           pointerEvents: 'none',
           zIndex: 0,
         }}
       />
 
-      {/* Big index numeral */}
+      {/* Registration mark — right edge cross */}
       <div
+        aria-hidden
         style={{
-          fontFamily: 'Freshman, serif',
-          fontSize: 'clamp(72px, 7vw, 108px)',
-          lineHeight: 0.85,
-          color: hovered ? RED : 'rgba(255,255,255,0.92)',
-          letterSpacing: '-0.02em',
-          transition: 'color 280ms ease, transform 320ms cubic-bezier(0.22,1,0.36,1)',
-          transform: hovered ? 'translateX(8px)' : 'translateX(0)',
-          position: 'relative',
-          zIndex: 1,
+          position: 'absolute',
+          right: -28,
+          bottom: -7,
+          width: 14,
+          height: 14,
+          color: hovered ? RED : 'rgba(244,237,228,0.22)',
+          fontSize: 14,
+          lineHeight: 1,
+          fontFamily: 'monospace',
+          transition: 'color 320ms ease',
         }}
       >
-        {wing.n}
+        +
       </div>
 
-      {/* Title + tag */}
+      {/* LEFT column — outlined numeral + code */}
       <div style={{ position: 'relative', zIndex: 1 }}>
         <div
           style={{
-            fontFamily: 'Inter, system-ui',
-            fontSize: 9.5,
-            letterSpacing: '0.32em',
-            color: hovered ? RED : 'rgba(255,255,255,0.32)',
+            fontFamily: 'Freshman, serif',
+            fontSize: 'clamp(72px, 6.4vw, 96px)',
+            lineHeight: 0.85,
+            letterSpacing: '-0.02em',
+            color: 'transparent',
+            WebkitTextStroke: hovered ? `1.5px ${RED}` : `1.4px rgba(244,237,228,0.85)`,
+            transition: 'all 320ms cubic-bezier(0.22,1,0.36,1)',
+            transform: hovered ? 'translateX(6px)' : 'translateX(0)',
+            userSelect: 'none',
+          }}
+        >
+          {wing.n}
+        </div>
+        <div
+          style={{
+            marginTop: 14,
+            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontSize: 10,
+            letterSpacing: '0.24em',
+            color: 'rgba(244,237,228,0.4)',
             textTransform: 'uppercase',
-            marginBottom: 10,
+          }}
+        >
+          §&nbsp;&nbsp;{wing.code}
+        </div>
+      </div>
+
+      {/* MIDDLE — eyebrow + title + body */}
+      <div style={{ position: 'relative', zIndex: 1 }}>
+        <div
+          style={{
+            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontSize: 10.5,
+            letterSpacing: '0.32em',
+            color: hovered ? RED : 'rgba(244,237,228,0.55)',
+            textTransform: 'uppercase',
+            marginBottom: 14,
             transition: 'color 280ms ease',
           }}
         >
-          / {wing.tag}
+          [ {wing.n} / {wing.tag.toUpperCase()} ]
         </div>
         <h3
           style={{
             fontFamily: 'Freshman, serif',
-            fontSize: 26,
-            letterSpacing: '0.01em',
-            margin: 0,
-            color: '#fff',
-            lineHeight: 1.1,
+            fontSize: 'clamp(34px, 3vw, 44px)',
+            letterSpacing: '0.005em',
+            margin: '0 0 18px',
+            color: BONE,
+            lineHeight: 1.02,
+            textTransform: 'uppercase',
           }}
         >
           {wing.title}
         </h3>
+        <p
+          style={{
+            fontFamily: 'Inter, system-ui',
+            fontSize: 15,
+            lineHeight: 1.65,
+            color: 'rgba(244,237,228,0.6)',
+            margin: 0,
+            maxWidth: 520,
+          }}
+        >
+          {wing.body}
+        </p>
       </div>
 
-      {/* Body */}
-      <p
-        style={{
-          fontFamily: 'Inter, system-ui',
-          fontSize: 15,
-          lineHeight: 1.65,
-          color: 'rgba(255,255,255,0.6)',
-          margin: 0,
-          maxWidth: 480,
-          position: 'relative',
-          zIndex: 1,
-        }}
-      >
-        {wing.body}
-      </p>
-
-      {/* Right arrow indicator */}
+      {/* RIGHT — protocol metadata stack */}
       <div
         style={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'flex-end',
-          gap: 10,
           position: 'relative',
           zIndex: 1,
+          paddingLeft: 20,
+          borderLeft: `1px solid rgba(244,237,228,0.12)`,
+          paddingTop: 4,
         }}
       >
         <div
           style={{
-            width: hovered ? 48 : 24,
-            height: 1,
-            background: hovered ? RED : 'rgba(255,255,255,0.25)',
-            transition: 'width 320ms cubic-bezier(0.22,1,0.36,1), background 280ms ease',
+            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontSize: 9,
+            letterSpacing: '0.28em',
+            color: 'rgba(244,237,228,0.35)',
+            textTransform: 'uppercase',
+            marginBottom: 6,
           }}
-        />
-        <span
+        >
+          Kit
+        </div>
+        <div
           style={{
-            fontFamily: 'Freshman, serif',
-            fontSize: 14,
-            color: hovered ? RED : 'rgba(255,255,255,0.4)',
+            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontSize: 12,
+            color: BONE,
+            letterSpacing: '0.04em',
+            marginBottom: 18,
+            lineHeight: 1.5,
+          }}
+        >
+          {wing.kit}
+        </div>
+        <div
+          style={{
+            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontSize: 9,
+            letterSpacing: '0.28em',
+            color: 'rgba(244,237,228,0.35)',
+            textTransform: 'uppercase',
+            marginBottom: 6,
+          }}
+        >
+          Goal
+        </div>
+        <div
+          style={{
+            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+            fontSize: 13,
+            color: hovered ? RED : BONE,
+            letterSpacing: '0.06em',
             transition: 'color 280ms ease',
           }}
         >
-          →
-        </span>
+          {wing.goal}
+        </div>
       </div>
     </div>
   )
@@ -234,28 +330,6 @@ export default function AboutSectionDesktop() {
         <span>Open 6AM — 10PM · No Classes</span>
       </div>
 
-      {/* Watermark — big, off-axis */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          top: '38%',
-          right: '-3vw',
-          fontFamily: 'Freshman, serif',
-          fontSize: 'clamp(180px, 22vw, 360px)',
-          color: 'rgba(225,10,31,0.045)',
-          whiteSpace: 'nowrap',
-          letterSpacing: '0.04em',
-          userSelect: 'none',
-          pointerEvents: 'none',
-          zIndex: 0,
-          lineHeight: 0.85,
-          fontWeight: 400,
-        }}
-      >
-        ABOUT
-      </div>
-
       {/* Inner content */}
       <div
         style={{
@@ -273,8 +347,30 @@ export default function AboutSectionDesktop() {
             gridTemplateColumns: '44px 1fr 1fr',
             gap: 64,
             marginBottom: 96,
+            position: 'relative',
+            overflow: 'hidden',
           }}
         >
+          {/* Watermark — contained to identity block */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              top: '-8%',
+              right: '-6vw',
+              fontFamily: 'Freshman, serif',
+              fontSize: 'clamp(180px, 20vw, 320px)',
+              color: 'rgba(225,10,31,0.05)',
+              whiteSpace: 'nowrap',
+              letterSpacing: '0.04em',
+              userSelect: 'none',
+              pointerEvents: 'none',
+              zIndex: 0,
+              lineHeight: 0.85,
+            }}
+          >
+            ABOUT
+          </div>
           {/* Rotated side label */}
           <div
             style={{
@@ -343,17 +439,58 @@ export default function AboutSectionDesktop() {
                 fontSize: 17,
                 lineHeight: 1.65,
                 color: 'rgba(255,255,255,0.78)',
-                margin: '0 0 44px',
+                margin: '0 0 20px',
                 maxWidth: 520,
               }}
             >
-              Open 6 to 10, every single day. Cardio, weights, bodyweight — whatever the goal
-              demands, the kit is here. No classes, no schedule — just iron, you, and a coach if
-              you want one.{' '}
+              Open 6 to 10, every single day. Strength, conditioning, performance — whatever the
+              goal demands, the kit is here. No classes, no schedule — just iron, you, and a coach
+              if you want one.{' '}
               <span style={{ color: '#fff' }}>
                 Forged for lifters, fighters, and anyone chasing a legend worth telling.
               </span>
             </p>
+
+            <p
+              style={{
+                fontFamily: 'Inter, system-ui',
+                fontSize: 15,
+                lineHeight: 1.65,
+                color: 'rgba(255,255,255,0.55)',
+                margin: '0 0 28px',
+                maxWidth: 520,
+              }}
+            >
+              Every level. Every goal. Weight loss, muscle, raw strength, endurance — we run
+              personalized programs built around the individual, not the crowd. Modern equipment,
+              real coaches, an environment that demands your best.{' '}
+              <span style={{ color: 'rgba(255,255,255,0.78)' }}>
+                Fitness is a lifestyle. Our mission is to inspire, motivate, and push you to become
+                the version of yourself worth becoming.
+              </span>
+            </p>
+
+            {/* Tagline callout */}
+            <div
+              style={{
+                paddingLeft: 16,
+                borderLeft: `2px solid ${RED}`,
+                marginBottom: 44,
+              }}
+            >
+              <div
+                style={{
+                  fontFamily: 'Freshman, serif',
+                  fontSize: 14,
+                  letterSpacing: '0.14em',
+                  color: RED,
+                  textTransform: 'uppercase',
+                  lineHeight: 1.5,
+                }}
+              >
+                Train Hard · Stay Strong · Achieve More.
+              </div>
+            </div>
 
             {/* Inline stats tape */}
             <div
@@ -402,68 +539,248 @@ export default function AboutSectionDesktop() {
           </div>
         </div>
 
-        {/* ── FACILITIES HEADER ── */}
+        {/* ── PROGRAM LEDGER HEADER ── */}
         <div
           style={{
-            display: 'grid',
-            gridTemplateColumns: '44px 1fr',
-            gap: 64,
-            alignItems: 'end',
-            marginBottom: 16,
-            paddingBottom: 24,
-            borderBottom: `2px solid ${RED}`,
+            position: 'relative',
             opacity: visible ? 1 : 0,
             transition: 'opacity 700ms 280ms ease',
+            marginBottom: 24,
           }}
         >
+          {/* Document classification bar */}
           <div
             style={{
-              fontFamily: 'Freshman, serif',
-              fontSize: 11,
-              color: RED,
-              letterSpacing: '0.24em',
+              display: 'flex',
+              alignItems: 'center',
+              gap: 18,
+              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              fontSize: 10,
+              letterSpacing: '0.32em',
+              color: 'rgba(244,237,228,0.5)',
+              textTransform: 'uppercase',
+              paddingBottom: 18,
+              borderBottom: '1px solid rgba(244,237,228,0.16)',
+              marginBottom: 28,
             }}
           >
-            §
+            <span style={{ color: RED }}>●</span>
+            <span>Glorious F.C.</span>
+            <span style={{ opacity: 0.4 }}>///</span>
+            <span>Program Manifest</span>
+            <span style={{ opacity: 0.4 }}>///</span>
+            <span>Vol. 02</span>
+            <span style={{ marginLeft: 'auto', color: 'rgba(244,237,228,0.35)' }}>
+              Rev. 2026 — 06 Entries
+            </span>
           </div>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-            <h3
-              style={{
-                fontFamily: 'Freshman, serif',
-                fontSize: 38,
-                letterSpacing: '0.01em',
-                margin: 0,
-                color: '#fff',
-                lineHeight: 1,
-              }}
-            >
-              The Kit.
-            </h3>
+
+          {/* Title row */}
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'flex-end',
+              paddingBottom: 28,
+              borderBottom: `2px solid ${RED}`,
+              gap: 32,
+            }}
+          >
+            <div>
+              <div
+                style={{
+                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                  fontSize: 10.5,
+                  letterSpacing: '0.32em',
+                  color: RED,
+                  textTransform: 'uppercase',
+                  marginBottom: 14,
+                }}
+              >
+                [ § 002 — Training Disciplines ]
+              </div>
+              <h3
+                style={{
+                  fontFamily: 'Freshman, serif',
+                  fontSize: 'clamp(56px, 6.4vw, 96px)',
+                  letterSpacing: '-0.015em',
+                  margin: 0,
+                  color: BONE,
+                  lineHeight: 0.92,
+                  textTransform: 'uppercase',
+                }}
+              >
+                The Program
+                <br />
+                <span style={{ color: RED }}>Ledger.</span>
+              </h3>
+            </div>
+
+            {/* Approval stamp */}
             <div
               style={{
-                fontFamily: 'Inter, system-ui',
-                fontSize: 10.5,
-                letterSpacing: '0.32em',
-                color: 'rgba(255,255,255,0.4)',
-                textTransform: 'uppercase',
+                transform: 'rotate(-6deg)',
+                border: `2px solid ${RED}`,
+                padding: '14px 18px 12px',
+                color: RED,
+                fontFamily: 'Freshman, serif',
+                textAlign: 'center',
+                opacity: 0.78,
+                position: 'relative',
+                flexShrink: 0,
+                background: 'rgba(13,6,8,0.4)',
               }}
             >
-              [ 002 / The Kit — Categories ]
+              <div
+                style={{
+                  fontSize: 9,
+                  letterSpacing: '0.32em',
+                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                  marginBottom: 4,
+                  opacity: 0.7,
+                }}
+              >
+                CERTIFIED
+              </div>
+              <div
+                style={{
+                  fontSize: 22,
+                  letterSpacing: '0.06em',
+                  lineHeight: 1,
+                }}
+              >
+                APPROVED
+              </div>
+              <div
+                style={{
+                  fontSize: 8,
+                  letterSpacing: '0.3em',
+                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                  marginTop: 4,
+                  opacity: 0.6,
+                }}
+              >
+                GFC · 26
+              </div>
+              {/* corner ticks */}
+              <span style={{ position: 'absolute', top: -1, left: -1, width: 8, height: 8, borderTop: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
+              <span style={{ position: 'absolute', top: -1, right: -1, width: 8, height: 8, borderTop: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
+              <span style={{ position: 'absolute', bottom: -1, left: -1, width: 8, height: 8, borderBottom: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
+              <span style={{ position: 'absolute', bottom: -1, right: -1, width: 8, height: 8, borderBottom: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
             </div>
+          </div>
+
+          {/* Column legend strip */}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: '110px 1fr 200px',
+              columnGap: 48,
+              marginTop: 16,
+              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              fontSize: 9,
+              letterSpacing: '0.28em',
+              color: 'rgba(244,237,228,0.32)',
+              textTransform: 'uppercase',
+            }}
+          >
+            <div>Index</div>
+            <div>Discipline</div>
+            <div style={{ paddingLeft: 20 }}>Specification</div>
           </div>
         </div>
 
-        {/* ── WING ROWS ── */}
-        <div style={{ paddingLeft: 108 }}>
-          {WINGS.map((w, i) => (
-            <WingRow
-              key={w.n}
-              wing={w}
-              delay={i * 90}
-              visible={visible}
-              isLast={i === WINGS.length - 1}
-            />
-          ))}
+        {/* ── LEDGER ENTRIES ── */}
+        <div
+          style={{
+            position: 'relative',
+            paddingTop: 12,
+          }}
+        >
+          {/* Blueprint grid behind rows */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: '0 -16px',
+              backgroundImage:
+                'linear-gradient(rgba(244,237,228,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(244,237,228,0.025) 1px, transparent 1px)',
+              backgroundSize: '48px 48px',
+              pointerEvents: 'none',
+              zIndex: 0,
+              maskImage: 'linear-gradient(180deg, transparent 0%, #000 14%, #000 88%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(180deg, transparent 0%, #000 14%, #000 88%, transparent 100%)',
+            }}
+          />
+
+          {/* Vertical column rule — far left margin */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              left: -16,
+              top: 24,
+              bottom: 24,
+              width: 1,
+              background:
+                'linear-gradient(180deg, transparent 0%, rgba(225,10,31,0.5) 12%, rgba(225,10,31,0.5) 88%, transparent 100%)',
+              zIndex: 0,
+            }}
+          />
+
+          {/* Side label — rotated chapter mark */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              left: -56,
+              top: 60,
+              writingMode: 'vertical-rl',
+              transform: 'rotate(180deg)',
+              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              fontSize: 9.5,
+              letterSpacing: '0.4em',
+              color: 'rgba(244,237,228,0.32)',
+              textTransform: 'uppercase',
+            }}
+          >
+            Ch. 02 — Forge / Manifest
+          </div>
+
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            {WINGS.map((w, i) => (
+              <WingRow
+                key={w.n}
+                wing={w}
+                delay={i * 90}
+                visible={visible}
+                isLast={i === WINGS.length - 1}
+              />
+            ))}
+          </div>
+
+          {/* Ledger footer */}
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              marginTop: 32,
+              paddingTop: 20,
+              borderTop: `1px solid rgba(244,237,228,0.16)`,
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              fontSize: 9.5,
+              letterSpacing: '0.3em',
+              color: 'rgba(244,237,228,0.4)',
+              textTransform: 'uppercase',
+            }}
+          >
+            <span>End of Manifest</span>
+            <span style={{ color: RED }}>— § 002 / 06 of 06 —</span>
+            <span>Filed · GFC Archive</span>
+          </div>
         </div>
       </div>
     </section>

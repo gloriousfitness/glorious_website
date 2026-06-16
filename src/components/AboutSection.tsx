@@ -1,4 +1,5 @@
 const RED = '#E10A1F'
+const BONE = '#f4ede4'
 
 const STATS = [
   { v: '6—10', l: 'Open Daily' },
@@ -9,21 +10,57 @@ const STATS = [
 const WINGS = [
   {
     n: '01',
-    title: 'Free Weights',
-    body: 'Barbells, dumbbells, racks, plates. Pick the weight, do the work — no waiting, no lines.',
+    code: 'A-01',
+    title: 'Strength Training',
+    body: 'Weight lifting, powerlifting, resistance work. Pull plates, push limits, build the base.',
     tag: 'Iron',
+    kit: 'Racks · Bars · Plates',
+    goal: 'Raw Power',
   },
   {
     n: '02',
-    title: 'Cardio',
-    body: 'Bikes, rowers, treadmills. Pump lungs, build the engine, finish strong.',
-    tag: 'Burn',
+    code: 'A-02',
+    title: 'Muscle Building',
+    body: 'Bodybuilding splits and hypertrophy programs. Size the frame, sculpt the lines.',
+    tag: 'Mass',
+    kit: 'Dumbbells · Cables · Machines',
+    goal: 'Size',
   },
   {
     n: '03',
-    title: 'Bodyweight',
-    body: 'Bars, rings, mats, mobility tools. Own the body before you own the iron.',
-    tag: 'Move',
+    code: 'B-01',
+    title: 'Fat Loss',
+    body: 'HIIT, cardio mixes, fat-loss circuits. Sweat hard, burn clean, drop weight.',
+    tag: 'Cut',
+    kit: 'Bikes · Rowers · Floor',
+    goal: 'Burn',
+  },
+  {
+    n: '04',
+    code: 'B-02',
+    title: 'Cardiovascular',
+    body: 'Treadmill, cycle, row, stair-climb. Pump lungs, build the engine, finish strong.',
+    tag: 'Pulse',
+    kit: 'Treads · Cycles · Steppers',
+    goal: 'Engine',
+  },
+  {
+    n: '05',
+    code: 'C-01',
+    title: 'Endurance',
+    body: 'Long-haul cardio, circuit training, sports conditioning. Outlast every round.',
+    tag: 'Stamina',
+    kit: 'Circuit Floor · Open Mats',
+    goal: 'Distance',
+  },
+  {
+    n: '06',
+    code: 'C-02',
+    title: 'Performance',
+    body: 'Athletic conditioning, speed and agility, sport-specific work. Train like the game demands.',
+    tag: 'Athlete',
+    kit: 'Sleds · Boxes · Open Floor',
+    goal: 'Game Day',
   },
 ]
 
@@ -36,7 +73,7 @@ export default function AboutSection() {
       id="about"
       style={{
         background: '#0a0a0d',
-        color: '#fff',
+        color: BONE,
         position: 'relative',
         overflow: 'hidden',
       }}
@@ -143,7 +180,7 @@ export default function AboutSection() {
             lineHeight: 0.95,
             margin: '0 0 0 -4px',
             letterSpacing: '-0.02em',
-            color: '#fff',
+            color: BONE,
           }}
         >
           About
@@ -156,16 +193,57 @@ export default function AboutSection() {
             fontFamily: 'Inter, system-ui',
             fontSize: 15,
             lineHeight: 1.6,
-            color: 'rgba(255,255,255,0.72)',
+            color: 'rgba(244,237,228,0.72)',
             margin: '32px 0 0',
           }}
         >
-          Open 6 to 10, every single day. Cardio, weights, bodyweight — whatever the goal demands,
-          the kit is here. No classes, no schedule — just iron, you, and a coach if you want one.{' '}
-          <span style={{ color: '#fff' }}>
+          Open 6 to 10, every single day. Strength, conditioning, performance — whatever the goal
+          demands, the kit is here. No classes, no schedule — just iron, you, and a coach if you
+          want one.{' '}
+          <span style={{ color: BONE }}>
             Forged for lifters, fighters, and anyone chasing a legend worth telling.
           </span>
         </p>
+
+        <p
+          style={{
+            fontFamily: 'Inter, system-ui',
+            fontSize: 14,
+            lineHeight: 1.65,
+            color: 'rgba(244,237,228,0.55)',
+            margin: '20px 0 0',
+          }}
+        >
+          Every level. Every goal. Weight loss, muscle, raw strength, endurance — we run
+          personalized programs built around the individual, not the crowd. Modern equipment,
+          real coaches, and an environment that demands your best.{' '}
+          <span style={{ color: 'rgba(244,237,228,0.72)' }}>
+            Fitness is a lifestyle. Our mission is to inspire, motivate, and push you to become
+            the version of yourself worth becoming.
+          </span>
+        </p>
+
+        {/* Tagline callout */}
+        <div
+          style={{
+            marginTop: 28,
+            paddingLeft: 14,
+            borderLeft: `2px solid ${RED}`,
+          }}
+        >
+          <div
+            style={{
+              fontFamily: 'Freshman, serif',
+              fontSize: 13,
+              letterSpacing: '0.14em',
+              color: RED,
+              textTransform: 'uppercase',
+              lineHeight: 1.5,
+            }}
+          >
+            Train Hard · Stay Strong · Achieve More.
+          </div>
+        </div>
 
         {/* Stats — red top hairline, vertical dividers */}
         <div
@@ -173,7 +251,7 @@ export default function AboutSection() {
             display: 'flex',
             alignItems: 'stretch',
             borderTop: `1px solid ${RED}`,
-            borderBottom: '1px solid rgba(255,255,255,0.08)',
+            borderBottom: '1px solid rgba(244,237,228,0.08)',
             marginTop: 36,
           }}
         >
@@ -183,14 +261,14 @@ export default function AboutSection() {
               style={{
                 flex: 1,
                 padding: '18px 10px 16px',
-                borderRight: i < 2 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+                borderRight: i < 2 ? '1px solid rgba(244,237,228,0.06)' : 'none',
               }}
             >
               <div
                 style={{
                   fontFamily: 'Freshman, serif',
                   fontSize: 30,
-                  color: '#fff',
+                  color: BONE,
                   lineHeight: 1,
                   marginBottom: 6,
                 }}
@@ -199,10 +277,10 @@ export default function AboutSection() {
               </div>
               <div
                 style={{
-                  fontFamily: 'Inter, system-ui',
+                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
                   fontSize: 9,
                   letterSpacing: '0.24em',
-                  color: 'rgba(255,255,255,0.42)',
+                  color: 'rgba(244,237,228,0.42)',
                   textTransform: 'uppercase',
                 }}
               >
@@ -212,107 +290,369 @@ export default function AboutSection() {
           ))}
         </div>
 
-        {/* The Kit. header */}
-        <div
-          style={{
-            marginTop: 40,
-            paddingBottom: 14,
-            borderBottom: `2px solid ${RED}`,
-          }}
-        >
+        {/* ── PROGRAM LEDGER HEADER ── */}
+        <div style={{ marginTop: 48 }}>
+          {/* Classification bar */}
           <div
             style={{
-              fontFamily: 'Inter, system-ui',
-              fontSize: 9.5,
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              fontSize: 8.5,
               letterSpacing: '0.28em',
-              color: 'rgba(255,255,255,0.42)',
+              color: 'rgba(244,237,228,0.5)',
               textTransform: 'uppercase',
-              marginBottom: 10,
+              paddingBottom: 12,
+              borderBottom: '1px solid rgba(244,237,228,0.14)',
+              marginBottom: 18,
+              flexWrap: 'wrap',
             }}
           >
-            [ 002 / The Kit — Categories ]
+            <span style={{ color: RED }}>●</span>
+            <span>Program</span>
+            <span style={{ opacity: 0.4 }}>///</span>
+            <span>Manifest</span>
+            <span style={{ opacity: 0.4 }}>///</span>
+            <span>Vol. 02</span>
+            <span style={{ marginLeft: 'auto', color: 'rgba(244,237,228,0.35)' }}>
+              06 entries
+            </span>
           </div>
-          <h3
+
+          {/* Title + stamp row */}
+          <div
             style={{
-              fontFamily: 'Freshman, serif',
-              fontSize: 40,
-              letterSpacing: '0.01em',
-              margin: 0,
-              color: '#fff',
-              lineHeight: 1,
+              display: 'flex',
+              alignItems: 'flex-end',
+              justifyContent: 'space-between',
+              gap: 16,
+              paddingBottom: 18,
+              borderBottom: `2px solid ${RED}`,
             }}
           >
-            The Kit.
-          </h3>
-        </div>
+            <div>
+              <div
+                style={{
+                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                  fontSize: 9,
+                  letterSpacing: '0.28em',
+                  color: RED,
+                  textTransform: 'uppercase',
+                  marginBottom: 10,
+                }}
+              >
+                [ § 002 — Disciplines ]
+              </div>
+              <h3
+                style={{
+                  fontFamily: 'Freshman, serif',
+                  fontSize: 'clamp(40px, 12vw, 56px)',
+                  letterSpacing: '-0.01em',
+                  margin: 0,
+                  color: BONE,
+                  lineHeight: 0.92,
+                  textTransform: 'uppercase',
+                }}
+              >
+                Program
+                <br />
+                <span style={{ color: RED }}>Ledger.</span>
+              </h3>
+            </div>
 
-        {/* Wing rows — brutalist mobile adaptation */}
-        <div>
-          {WINGS.map((w, i) => (
+            {/* Mini approval stamp */}
             <div
-              key={w.n}
               style={{
-                display: 'grid',
-                gridTemplateColumns: '92px 1fr',
-                gap: 20,
-                padding: '20px 0 22px',
-                borderBottom:
-                  i < WINGS.length - 1 ? '1px solid rgba(255,255,255,0.07)' : 'none',
-                alignItems: 'start',
+                transform: 'rotate(-6deg)',
+                border: `2px solid ${RED}`,
+                padding: '6px 9px 5px',
+                color: RED,
+                textAlign: 'center',
+                opacity: 0.85,
+                position: 'relative',
+                flexShrink: 0,
+                background: 'rgba(13,6,8,0.4)',
               }}
             >
-              {/* Big numeral */}
+              <div
+                style={{
+                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                  fontSize: 6.5,
+                  letterSpacing: '0.28em',
+                  marginBottom: 2,
+                  opacity: 0.7,
+                }}
+              >
+                CERT.
+              </div>
               <div
                 style={{
                   fontFamily: 'Freshman, serif',
-                  fontSize: 72,
-                  lineHeight: 0.82,
-                  color: '#fff',
-                  letterSpacing: '-0.02em',
+                  fontSize: 11,
+                  letterSpacing: '0.06em',
+                  lineHeight: 1,
                 }}
               >
-                {w.n}
+                APPROVED
               </div>
+              <div
+                style={{
+                  fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                  fontSize: 6,
+                  letterSpacing: '0.28em',
+                  marginTop: 2,
+                  opacity: 0.6,
+                }}
+              >
+                GFC · 26
+              </div>
+              <span style={{ position: 'absolute', top: -1, left: -1, width: 5, height: 5, borderTop: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
+              <span style={{ position: 'absolute', top: -1, right: -1, width: 5, height: 5, borderTop: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
+              <span style={{ position: 'absolute', bottom: -1, left: -1, width: 5, height: 5, borderBottom: `2px solid ${BONE}`, borderLeft: `2px solid ${BONE}` }} />
+              <span style={{ position: 'absolute', bottom: -1, right: -1, width: 5, height: 5, borderBottom: `2px solid ${BONE}`, borderRight: `2px solid ${BONE}` }} />
+            </div>
+          </div>
+        </div>
 
-              <div>
+        {/* ── LEDGER ENTRIES ── */}
+        <div
+          style={{
+            position: 'relative',
+            marginTop: 16,
+            paddingTop: 8,
+          }}
+        >
+          {/* Blueprint grid behind rows */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              inset: '0 -20px',
+              backgroundImage:
+                'linear-gradient(rgba(244,237,228,0.025) 1px, transparent 1px), linear-gradient(90deg, rgba(244,237,228,0.025) 1px, transparent 1px)',
+              backgroundSize: '32px 32px',
+              pointerEvents: 'none',
+              zIndex: 0,
+              maskImage:
+                'linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%)',
+              WebkitMaskImage:
+                'linear-gradient(180deg, transparent 0%, #000 8%, #000 92%, transparent 100%)',
+            }}
+          />
+
+          {/* Vertical red rule far-left */}
+          <div
+            aria-hidden
+            style={{
+              position: 'absolute',
+              left: -10,
+              top: 20,
+              bottom: 20,
+              width: 1,
+              background:
+                'linear-gradient(180deg, transparent 0%, rgba(225,10,31,0.5) 10%, rgba(225,10,31,0.5) 90%, transparent 100%)',
+              zIndex: 0,
+            }}
+          />
+
+          <div style={{ position: 'relative', zIndex: 1 }}>
+            {WINGS.map((w, i) => (
+              <div
+                key={w.n}
+                style={{
+                  padding: '24px 0 26px',
+                  borderBottom:
+                    i < WINGS.length - 1 ? '1px solid rgba(244,237,228,0.10)' : 'none',
+                  position: 'relative',
+                }}
+              >
+                {/* Reg cross right edge */}
+                <span
+                  aria-hidden
+                  style={{
+                    position: 'absolute',
+                    right: -14,
+                    bottom: -7,
+                    fontFamily: 'monospace',
+                    fontSize: 12,
+                    color: 'rgba(244,237,228,0.22)',
+                    lineHeight: 1,
+                  }}
+                >
+                  +
+                </span>
+
+                {/* Top: bracket eyebrow + code chip */}
                 <div
                   style={{
-                    fontFamily: 'Inter, system-ui',
-                    fontSize: 9,
-                    letterSpacing: '0.32em',
-                    color: RED,
-                    textTransform: 'uppercase',
-                    marginBottom: 8,
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginBottom: 12,
                   }}
                 >
-                  / {w.tag}
+                  <div
+                    style={{
+                      fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                      fontSize: 9.5,
+                      letterSpacing: '0.3em',
+                      color: RED,
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    [ {w.n} / {w.tag.toUpperCase()} ]
+                  </div>
+                  <div
+                    style={{
+                      fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                      fontSize: 9,
+                      letterSpacing: '0.24em',
+                      color: 'rgba(244,237,228,0.4)',
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    §&nbsp;{w.code}
+                  </div>
                 </div>
-                <h4
+
+                {/* Numeral + title row */}
+                <div
                   style={{
-                    fontFamily: 'Freshman, serif',
-                    fontSize: 22,
-                    letterSpacing: '0.01em',
-                    margin: '0 0 10px',
-                    color: '#fff',
-                    lineHeight: 1.05,
+                    display: 'grid',
+                    gridTemplateColumns: '78px 1fr',
+                    gap: 16,
+                    alignItems: 'center',
+                    marginBottom: 14,
                   }}
                 >
-                  {w.title}
-                </h4>
+                  <div
+                    style={{
+                      fontFamily: 'Freshman, serif',
+                      fontSize: 64,
+                      lineHeight: 0.82,
+                      letterSpacing: '-0.02em',
+                      color: 'transparent',
+                      WebkitTextStroke: `1.3px ${BONE}`,
+                      userSelect: 'none',
+                    }}
+                  >
+                    {w.n}
+                  </div>
+                  <h4
+                    style={{
+                      fontFamily: 'Freshman, serif',
+                      fontSize: 24,
+                      letterSpacing: '0.005em',
+                      margin: 0,
+                      color: BONE,
+                      lineHeight: 1.02,
+                      textTransform: 'uppercase',
+                    }}
+                  >
+                    {w.title}
+                  </h4>
+                </div>
+
+                {/* Body */}
                 <p
                   style={{
                     fontFamily: 'Inter, system-ui',
                     fontSize: 13.5,
                     lineHeight: 1.6,
-                    color: 'rgba(255,255,255,0.62)',
-                    margin: 0,
+                    color: 'rgba(244,237,228,0.6)',
+                    margin: '0 0 16px',
                   }}
                 >
                   {w.body}
                 </p>
+
+                {/* Spec strip — Protocol | Load */}
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: '1fr 1fr',
+                    borderTop: '1px solid rgba(244,237,228,0.12)',
+                    paddingTop: 12,
+                  }}
+                >
+                  <div style={{ borderRight: '1px solid rgba(244,237,228,0.08)', paddingRight: 12 }}>
+                    <div
+                      style={{
+                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                        fontSize: 8.5,
+                        letterSpacing: '0.28em',
+                        color: 'rgba(244,237,228,0.35)',
+                        textTransform: 'uppercase',
+                        marginBottom: 4,
+                      }}
+                    >
+                      Kit
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                        fontSize: 11,
+                        color: BONE,
+                        letterSpacing: '0.04em',
+                        lineHeight: 1.4,
+                      }}
+                    >
+                      {w.kit}
+                    </div>
+                  </div>
+                  <div style={{ paddingLeft: 12 }}>
+                    <div
+                      style={{
+                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                        fontSize: 8.5,
+                        letterSpacing: '0.28em',
+                        color: 'rgba(244,237,228,0.35)',
+                        textTransform: 'uppercase',
+                        marginBottom: 4,
+                      }}
+                    >
+                      Goal
+                    </div>
+                    <div
+                      style={{
+                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+                        fontSize: 12,
+                        color: BONE,
+                        letterSpacing: '0.06em',
+                      }}
+                    >
+                      {w.goal}
+                    </div>
+                  </div>
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
+
+          {/* Ledger footer */}
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 1,
+              marginTop: 24,
+              paddingTop: 16,
+              borderTop: `1px solid rgba(244,237,228,0.16)`,
+              display: 'flex',
+              justifyContent: 'space-between',
+              fontFamily: 'JetBrains Mono, ui-monospace, monospace',
+              fontSize: 8.5,
+              letterSpacing: '0.26em',
+              color: 'rgba(244,237,228,0.4)',
+              textTransform: 'uppercase',
+              flexWrap: 'wrap',
+              gap: 6,
+            }}
+          >
+            <span>End</span>
+            <span style={{ color: RED }}>§ 002 / 06 of 06</span>
+            <span>GFC Archive</span>
+          </div>
         </div>
       </div>
     </section>
