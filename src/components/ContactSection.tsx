@@ -183,9 +183,9 @@ const INFO_ROWS: InfoRowData[] = [
 ]
 
 const SOCIALS: { label: string; href: string }[] = [
-  { label: 'TikTok', href: '#' },
-  { label: 'Instagram', href: '#' },
-  { label: 'Facebook', href: '#' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@gloriousfitness?_r=1&_t=ZS-972R32OCFRi' },
+  { label: 'Instagram', href: 'https://www.instagram.com/glorious_fitness_center?igsh=MThlNGxjNmV0ZDBxbg==' },
+  { label: 'Facebook', href: 'https://www.facebook.com/FITNESSGLORIOUS/' },
 ]
 
 const RIGHT_PHOTOS: { src: string; label: string }[] = [
@@ -416,6 +416,8 @@ function MobileContact() {
             <a
               key={s.label}
               href={s.href}
+              target="_blank"
+              rel="noopener noreferrer"
               style={{
                 fontFamily: 'Inter, system-ui',
                 fontSize: 10,
@@ -925,6 +927,8 @@ function DesktopContact() {
               <a
                 key={s.label}
                 href={s.href}
+                target="_blank"
+                rel="noopener noreferrer"
                 className="gfc-social"
                 style={{
                   fontFamily: 'Inter, system-ui',
