@@ -194,7 +194,7 @@ function DesktopCoach() {
       >
         <span>§ 04 — On the Floor</span>
         <span style={{ opacity: 0.85 }}>One Coach · No Roster</span>
-        <span>Walk on · 24 / 7</span>
+        <span>Walk on</span>
       </div>
 
       {/* watermark */}
