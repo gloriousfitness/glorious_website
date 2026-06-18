@@ -95,10 +95,10 @@ function WingRow({
       onMouseLeave={() => setHovered(false)}
       style={{
         display: 'grid',
-        gridTemplateColumns: '110px 1fr 200px',
-        columnGap: 48,
+        gridTemplateColumns: '110px 1fr',
+        columnGap: 56,
         alignItems: 'start',
-        padding: '40px 0 36px',
+        padding: '20px 0 18px',
         borderBottom: isLast ? 'none' : '1px solid rgba(244,237,228,0.10)',
         position: 'relative',
         opacity: visible ? 1 : 0,
@@ -146,7 +146,7 @@ function WingRow({
         <div
           style={{
             fontFamily: 'Freshman, serif',
-            fontSize: 'clamp(72px, 6.4vw, 96px)',
+            fontSize: 'clamp(54px, 4.6vw, 72px)',
             lineHeight: 0.85,
             letterSpacing: '-0.02em',
             color: 'transparent',
@@ -181,7 +181,7 @@ function WingRow({
             letterSpacing: '0.32em',
             color: hovered ? RED : 'rgba(244,237,228,0.55)',
             textTransform: 'uppercase',
-            marginBottom: 14,
+            marginBottom: 8,
             transition: 'color 280ms ease',
           }}
         >
@@ -190,9 +190,9 @@ function WingRow({
         <h3
           style={{
             fontFamily: 'Freshman, serif',
-            fontSize: 'clamp(34px, 3vw, 44px)',
+            fontSize: 'clamp(26px, 2.2vw, 34px)',
             letterSpacing: '0.005em',
-            margin: '0 0 18px',
+            margin: '0 0 10px',
             color: BONE,
             lineHeight: 1.02,
             textTransform: 'uppercase',
@@ -203,74 +203,15 @@ function WingRow({
         <p
           style={{
             fontFamily: 'Inter, system-ui',
-            fontSize: 15,
-            lineHeight: 1.65,
+            fontSize: 13.5,
+            lineHeight: 1.6,
             color: 'rgba(244,237,228,0.6)',
             margin: 0,
-            maxWidth: 520,
+            maxWidth: 720,
           }}
         >
           {wing.body}
         </p>
-      </div>
-
-      {/* RIGHT — protocol metadata stack */}
-      <div
-        style={{
-          position: 'relative',
-          zIndex: 1,
-          paddingLeft: 20,
-          borderLeft: `1px solid rgba(244,237,228,0.12)`,
-          paddingTop: 4,
-        }}
-      >
-        <div
-          style={{
-            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-            fontSize: 9,
-            letterSpacing: '0.28em',
-            color: 'rgba(244,237,228,0.35)',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}
-        >
-          Kit
-        </div>
-        <div
-          style={{
-            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-            fontSize: 12,
-            color: BONE,
-            letterSpacing: '0.04em',
-            marginBottom: 18,
-            lineHeight: 1.5,
-          }}
-        >
-          {wing.kit}
-        </div>
-        <div
-          style={{
-            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-            fontSize: 9,
-            letterSpacing: '0.28em',
-            color: 'rgba(244,237,228,0.35)',
-            textTransform: 'uppercase',
-            marginBottom: 6,
-          }}
-        >
-          Goal
-        </div>
-        <div
-          style={{
-            fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-            fontSize: 13,
-            color: hovered ? RED : BONE,
-            letterSpacing: '0.06em',
-            transition: 'color 280ms ease',
-          }}
-        >
-          {wing.goal}
-        </div>
       </div>
     </div>
   )
@@ -631,8 +572,8 @@ export default function AboutSectionDesktop() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: '110px 1fr 200px',
-              columnGap: 48,
+              gridTemplateColumns: '110px 1fr',
+              columnGap: 56,
               marginTop: 16,
               fontFamily: 'JetBrains Mono, ui-monospace, monospace',
               fontSize: 9,
@@ -643,7 +584,6 @@ export default function AboutSectionDesktop() {
           >
             <div>Index</div>
             <div>Discipline</div>
-            <div style={{ paddingLeft: 20 }}>Specification</div>
           </div>
         </div>
 

@@ -419,7 +419,7 @@ export default function AboutSection() {
               <div
                 key={w.n}
                 style={{
-                  padding: '24px 0 26px',
+                  padding: '14px 0 14px',
                   borderBottom:
                     i < WINGS.length - 1 ? '1px solid rgba(244,237,228,0.10)' : 'none',
                   position: 'relative',
@@ -478,16 +478,16 @@ export default function AboutSection() {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: '78px 1fr',
-                    gap: 16,
+                    gridTemplateColumns: '58px 1fr',
+                    gap: 14,
                     alignItems: 'center',
-                    marginBottom: 14,
+                    marginBottom: 8,
                   }}
                 >
                   <div
                     style={{
                       fontFamily: 'Freshman, serif',
-                      fontSize: 64,
+                      fontSize: 48,
                       lineHeight: 0.82,
                       letterSpacing: '-0.02em',
                       color: 'transparent',
@@ -500,7 +500,7 @@ export default function AboutSection() {
                   <h4
                     style={{
                       fontFamily: 'Freshman, serif',
-                      fontSize: 24,
+                      fontSize: 20,
                       letterSpacing: '0.005em',
                       margin: 0,
                       color: BONE,
@@ -516,74 +516,14 @@ export default function AboutSection() {
                 <p
                   style={{
                     fontFamily: 'Inter, system-ui',
-                    fontSize: 13.5,
-                    lineHeight: 1.6,
+                    fontSize: 13,
+                    lineHeight: 1.55,
                     color: 'rgba(244,237,228,0.6)',
-                    margin: '0 0 16px',
+                    margin: 0,
                   }}
                 >
                   {w.body}
                 </p>
-
-                {/* Spec strip — Protocol | Load */}
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: '1fr 1fr',
-                    borderTop: '1px solid rgba(244,237,228,0.12)',
-                    paddingTop: 12,
-                  }}
-                >
-                  <div style={{ borderRight: '1px solid rgba(244,237,228,0.08)', paddingRight: 12 }}>
-                    <div
-                      style={{
-                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                        fontSize: 8.5,
-                        letterSpacing: '0.28em',
-                        color: 'rgba(244,237,228,0.35)',
-                        textTransform: 'uppercase',
-                        marginBottom: 4,
-                      }}
-                    >
-                      Kit
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                        fontSize: 11,
-                        color: BONE,
-                        letterSpacing: '0.04em',
-                        lineHeight: 1.4,
-                      }}
-                    >
-                      {w.kit}
-                    </div>
-                  </div>
-                  <div style={{ paddingLeft: 12 }}>
-                    <div
-                      style={{
-                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                        fontSize: 8.5,
-                        letterSpacing: '0.28em',
-                        color: 'rgba(244,237,228,0.35)',
-                        textTransform: 'uppercase',
-                        marginBottom: 4,
-                      }}
-                    >
-                      Goal
-                    </div>
-                    <div
-                      style={{
-                        fontFamily: 'JetBrains Mono, ui-monospace, monospace',
-                        fontSize: 12,
-                        color: BONE,
-                        letterSpacing: '0.06em',
-                      }}
-                    >
-                      {w.goal}
-                    </div>
-                  </div>
-                </div>
               </div>
             ))}
           </div>
