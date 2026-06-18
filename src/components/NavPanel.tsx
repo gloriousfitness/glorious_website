@@ -65,7 +65,7 @@ export default function NavPanel({ open, linksVisible, onClose }: Props) {
                   textTransform: 'uppercase',
                 }}
               >
-                FITNESS CENTER
+                FITNESS FACTORY
               </div>
             </div>
           </div>

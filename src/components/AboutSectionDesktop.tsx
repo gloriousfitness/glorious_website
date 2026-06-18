@@ -334,7 +334,7 @@ export default function AboutSectionDesktop() {
           justifyContent: 'space-between',
         }}
       >
-        <span>Est. — Glorious Fitness Center</span>
+        <span>Est. — Glorious Fitness Factory</span>
         <span style={{ opacity: 0.85 }}>Iron · Sweat · Glory</span>
         <span>Open 6AM — 10PM · No Classes</span>
       </div>

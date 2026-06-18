@@ -151,7 +151,7 @@ export default function Home({ booted }: { booted: boolean }) {
                 textTransform: 'uppercase',
               }}
             >
-              FITNESS CENTER
+              FITNESS FACTORY
             </div>
           </div>
         </a>
@@ -252,7 +252,7 @@ export default function Home({ booted }: { booted: boolean }) {
                 transition: 'font-size 360ms cubic-bezier(0.22,1,0.36,1)',
               }}
             >
-              FITNESS CENTER
+              FITNESS FACTORY
             </div>
           </div>
         </a>

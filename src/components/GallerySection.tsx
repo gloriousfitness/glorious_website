@@ -735,7 +735,7 @@ export default function GallerySection() {
                   textTransform: 'uppercase',
                 }}
               >
-                Glorious Fitness Center · Kandy
+                Glorious Fitness Factory · Kandy
               </div>
             </div>
 
