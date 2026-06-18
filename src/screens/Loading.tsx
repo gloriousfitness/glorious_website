@@ -2,18 +2,20 @@ import { useEffect, useRef, useState } from 'react'
 
 const RED = '#E10A1F'
 const WORD = 'GLORIOUS'
-const DURATION_MS = 3200
 const FLIP_HOLD_MS = 650
 const SWIPE_MS = 900
 const MORPH_MS = 520
 const DOT_STEP_MS = 200
 const DOT_HOLD_MS = 150
+const BUFFER_TARGET = 0.5 // 50% of hero video must be buffered
+const SAFETY_MS = 20000 // fallback if buffer never reaches target
+const MIN_HOLD_MS = 600 // floor so bar never snaps instantly to 100
 // approx px width of 3 dots + 2 gaps at max size: 14+7+7 + 8+8 = 44
 const DOT_CLUSTER_W = 44
 
-type Props = { onDone: () => void; onVideoStart?: () => void }
+type Props = { onDone: () => void; onVideoStart?: () => void; videoSrc?: string }
 
-export default function Loading({ onDone, onVideoStart }: Props) {
+export default function Loading({ onDone, onVideoStart, videoSrc = '/hero.mp4' }: Props) {
   const [progress, setProgress] = useState(0)
   const [flipped, setFlipped] = useState(false)
   const [swiping, setSwiping] = useState(false)
@@ -21,9 +23,12 @@ export default function Loading({ onDone, onVideoStart }: Props) {
   const [dotPhase, setDotPhase] = useState(0)
   const [morphing, setMorphing] = useState(false)
   const [morphed, setMorphed] = useState(false)
+  const videoRef = useRef<HTMLVideoElement>(null)
   const rafRef = useRef(0)
   const startRef = useRef(0)
   const videoStartedRef = useRef(false)
+  const bufferedFracRef = useRef(0)
+  const reachedTargetRef = useRef(false)
 
   useEffect(() => {
     let cancelled = false
@@ -52,21 +57,67 @@ export default function Loading({ onDone, onVideoStart }: Props) {
     return () => clearTimeout(t)
   }, [dotPhase, fontReady, morphing, morphed])
 
+  // Track real buffered fraction of hero video
+  useEffect(() => {
+    const v = videoRef.current
+    if (!v) return
+    const measure = () => {
+      const dur = v.duration
+      if (!isFinite(dur) || dur <= 0) return
+      let end = 0
+      for (let i = 0; i < v.buffered.length; i++) {
+        end = Math.max(end, v.buffered.end(i))
+      }
+      const frac = Math.min(1, end / dur)
+      if (frac > bufferedFracRef.current) bufferedFracRef.current = frac
+      if (!reachedTargetRef.current && frac >= BUFFER_TARGET) {
+        reachedTargetRef.current = true
+      }
+    }
+    const onCanPlayThrough = () => {
+      bufferedFracRef.current = Math.max(bufferedFracRef.current, BUFFER_TARGET)
+      reachedTargetRef.current = true
+    }
+    v.addEventListener('progress', measure)
+    v.addEventListener('loadedmetadata', measure)
+    v.addEventListener('canplaythrough', onCanPlayThrough)
+    // safety: never block forever
+    const safety = setTimeout(() => {
+      bufferedFracRef.current = Math.max(bufferedFracRef.current, BUFFER_TARGET)
+      reachedTargetRef.current = true
+    }, SAFETY_MS)
+    try { v.load() } catch {}
+    return () => {
+      v.removeEventListener('progress', measure)
+      v.removeEventListener('loadedmetadata', measure)
+      v.removeEventListener('canplaythrough', onCanPlayThrough)
+      clearTimeout(safety)
+    }
+  }, [])
+
   useEffect(() => {
     if (!morphed) return
     startRef.current = performance.now()
+    let pRef = 0
     const tick = (t: number) => {
       const elapsed = t - startRef.current
-      const u = Math.min(1, elapsed / DURATION_MS)
-      const p = u < 0.8 ? (u / 0.8) * 70 : 70 + ((u - 0.8) / 0.2) * 30
-      setProgress(Math.min(100, p))
-      if (!videoStartedRef.current && p >= 95) {
+      // map buffered 0..BUFFER_TARGET → 0..100
+      const bufP = Math.min(100, (bufferedFracRef.current / BUFFER_TARGET) * 100)
+      // min hold ensures bar visually fills even when video is cached
+      const holdCeil = Math.min(100, (elapsed / MIN_HOLD_MS) * 100)
+      const target = Math.min(bufP, holdCeil)
+      pRef = pRef + (target - pRef) * 0.18
+      if (target - pRef < 0.3 && target > pRef) pRef = target
+      setProgress(pRef)
+      if (!videoStartedRef.current && reachedTargetRef.current && elapsed >= MIN_HOLD_MS) {
         videoStartedRef.current = true
         onVideoStart?.()
       }
-      if (p < 100) {
+      const done = reachedTargetRef.current && elapsed >= MIN_HOLD_MS && pRef >= 99.5
+      if (!done) {
         rafRef.current = requestAnimationFrame(tick)
       } else {
+        setProgress(100)
         setTimeout(() => {
           setFlipped(true)
           setTimeout(() => {
@@ -78,7 +129,7 @@ export default function Loading({ onDone, onVideoStart }: Props) {
     }
     rafRef.current = requestAnimationFrame(tick)
     return () => cancelAnimationFrame(rafRef.current)
-  }, [onDone, morphed])
+  }, [onDone, onVideoStart, morphed])
 
   const filledCount = Math.min(WORD.length, Math.floor((progress * WORD.length) / 100 + 0.0001))
 
@@ -106,6 +157,18 @@ export default function Loading({ onDone, onVideoStart }: Props) {
         zIndex: 2000,
       }}
     >
+      {/* Hidden prefetch video — drives real buffered progress.
+          Browser caches the bytes so the visible <Hero> reuses them. */}
+      <video
+        ref={videoRef}
+        src={videoSrc}
+        preload="auto"
+        muted
+        playsInline
+        aria-hidden="true"
+        style={{ position: 'absolute', width: 1, height: 1, opacity: 0, pointerEvents: 'none' }}
+      />
+
       {flipped && (
         <div
           className="pointer-events-none absolute inset-0"
