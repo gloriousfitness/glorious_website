@@ -7,7 +7,6 @@ const MAPS_URL = 'https://maps.app.goo.gl/rcHYof6cgEns3dfe7'
 const PHONE_DISPLAY = '081 760 1677'
 const PHONE_HREF = 'tel:+94817601677'
 const PHONE2_DISPLAY = '075 695 3689'
-const PHONE2_HREF = 'tel:+94756953689'
 const EMAIL_DISPLAY = 'gloriousfitnessfactory@gmail.com'
 const EMAIL_HREF = 'mailto:gloriousfitnessfactory@gmail.com'
 const ADDRESS_LINE1 = 'No: 340, Kandy Road'
@@ -189,9 +188,8 @@ const SOCIALS: { label: string; href: string }[] = [
 ]
 
 const RIGHT_PHOTOS: { src: string; label: string }[] = [
-  { src: '/gallery/gym/BN3A9415.webp', label: 'Floor' },
-  { src: '/gallery/gym/BN3A9416.webp', label: 'Strength' },
-  { src: '/gallery/gym/BN3A9417.webp', label: 'Recovery' },
+  { src: '/gallery/map/photo1.jpeg', label: 'Floor' },
+  { src: '/gallery/map/photo2.jpeg', label: 'Strength' },
 ]
 
 /* ─── Mobile layout ─────────────────────────────────────────────────── */
@@ -1010,7 +1008,7 @@ function DesktopContact() {
               width: 'clamp(124px, 11vw, 168px)',
             }}
           >
-            {RIGHT_PHOTOS.map((p, i) => (
+            {RIGHT_PHOTOS.map((p) => (
               <a
                 key={p.src}
                 href="#gallery"
@@ -1034,48 +1032,8 @@ function DesktopContact() {
                     height: '100%',
                     objectFit: 'cover',
                     display: 'block',
-                    filter: 'grayscale(0.7) contrast(1.05) brightness(0.92)',
                   }}
                 />
-                <div
-                  aria-hidden
-                  style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    bottom: 0,
-                    padding: '6px 9px',
-                    background: 'rgba(10,10,13,0.88)',
-                    borderTop: `1px solid ${RED}`,
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    gap: 6,
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: 'Freshman, serif',
-                      fontSize: 8.5,
-                      letterSpacing: '0.28em',
-                      color: RED,
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    {`0${i + 1}`}
-                  </span>
-                  <span
-                    style={{
-                      fontFamily: 'Inter, system-ui',
-                      fontSize: 8.5,
-                      letterSpacing: '0.28em',
-                      color: '#fff',
-                      textTransform: 'uppercase',
-                    }}
-                  >
-                    / {p.label}
-                  </span>
-                </div>
               </a>
             ))}
           </div>

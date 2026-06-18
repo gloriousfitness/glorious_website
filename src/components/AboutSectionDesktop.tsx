@@ -2,7 +2,6 @@ import { useEffect, useRef, useState } from 'react'
 
 const RED = '#E10A1F'
 const BONE = '#f4ede4'
-const RUST = '#5a1a1f'
 
 const STATS = [
   { v: '6—10', l: 'Open Daily' },

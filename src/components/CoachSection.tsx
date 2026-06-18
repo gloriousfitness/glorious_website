@@ -1,9 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 
 const RED = '#E10A1F'
-const BG = '#0a0a0d'
 const PHOTO = '/coach-rahul.webp'
-const VIDEO = '/hero.mp4'
 const MONO = "'JetBrains Mono', ui-monospace, Menlo, monospace"
 
 const COACH = {
@@ -73,63 +71,10 @@ function useInViewVideo() {
   return { sectionRef, videoRef }
 }
 
-/* ────────────────────── SHARED BG ────────────────────── */
-
-function VideoBackdrop({ videoRef }: { videoRef: React.RefObject<HTMLVideoElement> }) {
-  return (
-    <>
-      <video
-        ref={videoRef}
-        src={VIDEO}
-        muted
-        loop
-        playsInline
-        preload="metadata"
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          width: '100%',
-          height: '100%',
-          objectFit: 'cover',
-          filter: 'grayscale(1) contrast(1.25) brightness(0.45) blur(18px)',
-          opacity: 0.55,
-          transform: 'scale(1.1)',
-          zIndex: 0,
-        }}
-      />
-      {/* heavy dim + red wash */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          background:
-            'radial-gradient(ellipse at 75% 50%, rgba(225,10,31,0.12) 0%, rgba(10,10,13,0) 55%), linear-gradient(180deg, rgba(10,10,13,0.45) 0%, rgba(10,10,13,0.65) 100%)',
-          zIndex: 0,
-        }}
-      />
-      {/* grain */}
-      <div
-        aria-hidden
-        style={{
-          position: 'absolute',
-          inset: 0,
-          opacity: 0.28,
-          mixBlendMode: 'overlay',
-          pointerEvents: 'none',
-          zIndex: 0,
-          backgroundImage: GRAIN_BG,
-        }}
-      />
-    </>
-  )
-}
-
 /* ────────────────────── DESKTOP ────────────────────── */
 
 function DesktopCoach() {
-  const { sectionRef, videoRef } = useInViewVideo()
+  const { sectionRef } = useInViewVideo()
   const copyR = useReveal<HTMLDivElement>(0.22)
   const photoR = useReveal<HTMLDivElement>(0.22)
 
@@ -573,7 +518,7 @@ function DesktopCoach() {
 /* ────────────────────── MOBILE ────────────────────── */
 
 function MobileCoach() {
-  const { sectionRef, videoRef } = useInViewVideo()
+  const { sectionRef } = useInViewVideo()
   const copyR = useReveal<HTMLDivElement>(0.18)
   const photoR = useReveal<HTMLDivElement>()
 
