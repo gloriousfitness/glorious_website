@@ -64,9 +64,13 @@ export default function Loading({ onDone, onVideoStart, videoSrc = '/hero.mp4' }
     const measure = () => {
       const dur = v.duration
       if (!isFinite(dur) || dur <= 0) return
+      // Sequential buffer only: range that starts at (or before) t=0
       let end = 0
       for (let i = 0; i < v.buffered.length; i++) {
-        end = Math.max(end, v.buffered.end(i))
+        if (v.buffered.start(i) <= 0.01) {
+          end = v.buffered.end(i)
+          break
+        }
       }
       const frac = Math.min(1, end / dur)
       if (frac > bufferedFracRef.current) bufferedFracRef.current = frac
