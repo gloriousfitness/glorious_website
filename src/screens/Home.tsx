@@ -85,7 +85,8 @@ export default function Home({ booted }: { booted: boolean }) {
     document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
 
   const scrollToAnchor = (anchor: string) => {
-    const el = document.getElementById(anchor)
+    const els = document.querySelectorAll<HTMLElement>(`[id="${anchor}"]`)
+    const el = Array.from(els).find((n) => n.offsetParent !== null) ?? els[0]
     if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 
