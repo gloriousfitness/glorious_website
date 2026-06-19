@@ -6,6 +6,41 @@ const MONO = "'JetBrains Mono', ui-monospace, Menlo, monospace"
 
 type Props = { onCta?: () => void; booted?: boolean }
 
+/* ─── Robust video autoplay (iOS-friendly) ─────────────────────────
+   iOS rejects play() if: readyState<2, decoder busy, LPM, no gesture.
+   Strategy: retry on loadeddata + canplay + first touch/click. */
+function useVideoAutoplay(videoRef: React.RefObject<HTMLVideoElement | null>, enabled: boolean) {
+  useEffect(() => {
+    if (!enabled) return
+    const v = videoRef.current
+    if (!v) return
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return
+
+    let stopped = false
+    const tryPlay = () => {
+      if (stopped || !v) return
+      const p = v.play()
+      if (p && typeof p.then === 'function') {
+        p.then(() => { stopped = true; cleanup() }).catch(() => {})
+      }
+    }
+    const onGesture = () => tryPlay()
+    const cleanup = () => {
+      v.removeEventListener('loadeddata', tryPlay)
+      v.removeEventListener('canplay', tryPlay)
+      window.removeEventListener('touchstart', onGesture)
+      window.removeEventListener('click', onGesture)
+    }
+    v.addEventListener('loadeddata', tryPlay)
+    v.addEventListener('canplay', tryPlay)
+    window.addEventListener('touchstart', onGesture, { passive: true })
+    window.addEventListener('click', onGesture)
+    try { v.load() } catch {}
+    tryPlay()
+    return () => { stopped = true; cleanup() }
+  }, [enabled])
+}
+
 /* ─── In-view hook (pause work when offscreen) ──────────────────── */
 function useInView<T extends Element>(ref: React.RefObject<T | null>, rootMargin = '0px') {
   const [inView, setInView] = useState(true)
@@ -96,13 +131,7 @@ function useScrollAwayFade() {
 function MobileHero({ onCta, booted }: Props) {
   const awayFade = useScrollAwayFade()
   const videoRef = useRef<HTMLVideoElement>(null)
-
-  useEffect(() => {
-    if (!booted || !videoRef.current) return
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) return
-    videoRef.current.play().catch(() => {})
-  }, [booted])
+  useVideoAutoplay(videoRef, !!booted)
 
   return (
     <section
@@ -119,13 +148,16 @@ function MobileHero({ onCta, booted }: Props) {
       <div className="absolute inset-0 overflow-hidden" style={{ zIndex: 0 }}>
         <video
           ref={videoRef}
+          autoPlay
           loop
           muted
           playsInline
-          preload="metadata"
+          preload="auto"
           poster="/hero-poster.webp"
           aria-hidden="true"
           src="/hero.mp4"
+          disablePictureInPicture
+          disableRemotePlayback
           style={{
             width: '100%',
             height: '100%',
@@ -296,12 +328,7 @@ function DesktopHero({ onCta, booted }: Props) {
     pointerEvents: awayProgress > 0.9 ? 'none' : 'auto',
   }
 
-  useEffect(() => {
-    if (!booted || !videoRef.current) return
-    const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reduce) return
-    videoRef.current.play().catch(() => {})
-  }, [booted])
+  useVideoAutoplay(videoRef, !!booted)
 
   useEffect(() => {
     const t = setTimeout(() => setMounted(true), 60)
@@ -352,13 +379,16 @@ function DesktopHero({ onCta, booted }: Props) {
       {/* ── Video ── */}
       <video
         ref={videoRef}
+        autoPlay
         loop
         muted
         playsInline
-        preload="metadata"
+        preload="auto"
         poster="/hero-poster.webp"
         aria-hidden="true"
         src="/hero.mp4"
+        disablePictureInPicture
+        disableRemotePlayback
         style={{
           position: 'absolute',
           inset: 0,

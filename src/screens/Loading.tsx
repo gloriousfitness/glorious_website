@@ -125,6 +125,12 @@ export default function Loading({ onDone, onVideoStart, videoSrc = '/hero.mp4' }
         setTimeout(() => {
           setFlipped(true)
           setTimeout(() => {
+            // Release iOS video decoder slot before Hero mounts/plays
+            const vEl = videoRef.current
+            if (vEl) {
+              try { vEl.pause() } catch {}
+              try { vEl.removeAttribute('src'); vEl.load() } catch {}
+            }
             setSwiping(true)
             setTimeout(onDone, SWIPE_MS)
           }, FLIP_HOLD_MS)
