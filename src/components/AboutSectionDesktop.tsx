@@ -393,7 +393,7 @@ export default function AboutSectionDesktop() {
               }}
             >
               Open 6 to 10, every single day. Strength, conditioning, performance — whatever the
-              goal demands, the kit is here. No classes, no schedule — just iron, you, and a coach
+              goal demands — just iron, you, and a coach
               if you want one.{' '}
               <span style={{ color: '#fff' }}>
                 Forged for lifters, fighters, and anyone chasing a legend worth telling.
